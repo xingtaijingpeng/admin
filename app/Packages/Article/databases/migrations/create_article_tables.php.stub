@@ -1,0 +1,50 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2020/4/5
+ * Time: 12:50
+ */
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateArticleTables extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('articles', function (Blueprint $table) {
+            $table->increments('id');
+            $table->Integer('model_id')->default(0)->comment('');
+            $table->tinyInteger('merc_attr')->default(0)->comment('');
+            $table->string('sub_merchant_id')->default('')->comment('');
+            $table->timestamps();
+        });
+
+        Schema::create('article_categories', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('merchant_id')->default('')->comment('');
+            $table->string('request_id')->default('')->comment('');
+            $table->string('type')->default('')->comment('');
+            $table->text('post')->comment('');
+            $table->text('result')->comment('');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('articles');
+        Schema::drop('article_categories');
+    }
+}

@@ -232,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Upload' => \App\Packages\Filer\Facades\Upload::class,
         'UEditor' => \App\Packages\UEditor\Facades\UEditor::class,
+        'Article' => \App\Packages\Article\Facades\Article::class,
 
     ],
 
