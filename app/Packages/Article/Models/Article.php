@@ -9,7 +9,7 @@
 namespace App\Packages\Article\Models;
 
 
-use App\Packages\Category\Model\Category;
+use App\Models\Base\Category;
 
 class Article
 {
