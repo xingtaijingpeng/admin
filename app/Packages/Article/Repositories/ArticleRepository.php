@@ -10,6 +10,7 @@ namespace App\Packages\Article\Repositories;
 
 
 use App\Packages\Article\Interfaces\ArticleInterface;
+use App\Packages\Article\Models\Article;
 
 class ArticleRepository implements ArticleInterface
 {
@@ -20,7 +21,7 @@ class ArticleRepository implements ArticleInterface
      */
     public function all()
     {
-        // TODO: Implement all() method.
+        return Article::all();
     }
 
     /**
