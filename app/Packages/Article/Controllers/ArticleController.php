@@ -11,6 +11,7 @@ namespace App\Packages\Article\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\ResponseTrait;
 use App\Packages\Article\Interfaces\ArticleInterface;
+use App\Packages\Article\Resources\ArticleCollection;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -31,7 +32,12 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->success('ok',$this->article->all());
+        return new ArticleCollection($this->article->paginate($this->pagesize()));
+    }
+
+    public function detail($id)
+    {
+
     }
 
     /**

@@ -15,7 +15,7 @@ interface ArticleInterface
      * 获取全部文章列表
      * @return mixed
      */
-    public function all();
+    public function paginate($size);
 
     /**
      * 通过ID获取文章列表

@@ -24,7 +24,10 @@ class Article extends Facade
             'prefix' => 'article'
         ],function ($route)use($auth){
             if($auth){
+                $route->any('detail/{id}','\App\Packages\Article\Controllers\ArticleController@detail');
                 $route->any('create','\App\Packages\Article\Controllers\ArticleController@create');
+                $route->any('update','\App\Packages\Article\Controllers\ArticleController@update');
+                $route->any('delete','\App\Packages\Article\Controllers\ArticleController@delete');
             }else{
                 $route->any('index','\App\Packages\Article\Controllers\ArticleController@index');
             }

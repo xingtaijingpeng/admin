@@ -32,6 +32,6 @@ class Article extends Model
      */
     public function content()
     {
-        return $this->morphMany(BaseContent::class, 'model');
+        return $this->morphOne(BaseContent::class, 'model');
     }
 }

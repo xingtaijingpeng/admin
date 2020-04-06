@@ -11,17 +11,29 @@ namespace App\Packages\Article\Repositories;
 
 use App\Packages\Article\Interfaces\ArticleInterface;
 use App\Packages\Article\Models\Article;
+use App\Repositories\Repositories;
 
-class ArticleRepository implements ArticleInterface
+class ArticleRepository extends Repositories implements ArticleInterface
 {
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    public function model()
+    {
+        return Article::class;
+    }
 
     /**
      * 获取全部文章列表
      * @return mixed
      */
-    public function all()
+    public function paginate($size,$guard = 'admin')
     {
-        return Article::all();
+        return Article::whereHas('categories',function ($query)use($guard){
+            $query->where('guard',$guard);
+        })->paginate($size);
     }
 
     /**
@@ -49,5 +61,20 @@ class ArticleRepository implements ArticleInterface
             'sys_category_id' => $data['category_id']
         ]);
         return $art;
+    }
+
+    /**
+     * 修改文章
+     * @param $data
+     * @param $id
+     * @return array
+     */
+    public function update($data,$id){
+        $art = [];
+        return $art;
+    }
+
+    public function delete($id){
+
     }
 }
