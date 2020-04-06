@@ -9,7 +9,7 @@
 namespace App\Packages\Article\Models;
 
 /**************** package config ****************/
-use App\Models\Base\Category as BaseCategory;
+use App\Models\System\Category as BaseCategory;
 /**************** package config ****************/
 
 class Article

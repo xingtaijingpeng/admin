@@ -6,7 +6,7 @@
  * Time: 22:37
  */
 
-namespace App\Models\Base;
+namespace App\Models\System;
 
 /**************** package config ****************/
 use App\Packages\Article\Models\Article as PackageArticle;
