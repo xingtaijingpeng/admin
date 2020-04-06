@@ -33,4 +33,21 @@ class ArticleRepository implements ArticleInterface
     {
         // TODO: Implement getListById() method.
     }
+
+    /**
+     * 添加文章
+     * @param $data
+     * @return mixed
+     */
+    public function create($data)
+    {
+        $art = Article::create(\Arr::except($data,['content','category_id']));
+        $art->content()->create([
+            'content' => $data['content']
+        ]);
+        $art->categories()->sync([
+            'sys_category_id' => $data['category_id']
+        ]);
+        return $art;
+    }
 }

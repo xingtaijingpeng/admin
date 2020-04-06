@@ -23,4 +23,11 @@ interface ArticleInterface
      * @return mixed
      */
     public function getListByUser($id);
+
+    /**
+     * 添加文章
+     * @param $data
+     * @return mixed
+     */
+    public function create($data);
 }

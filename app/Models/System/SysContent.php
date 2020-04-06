@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SysContent extends Model
 {
+    protected $guarded = [];
+
     /**
      * Get all of the owning commentable models.
      */

@@ -16,13 +16,14 @@ use App\Models\System\SysContent as BaseContent;
 
 class Article extends Model
 {
+    protected $guarded = [];
     /**
      * 获取分类
      * @return mixed
      */
     public function categories()
     {
-        return $this->morphToMany(BaseCategory::class, 'categoryable');
+        return $this->morphToMany(BaseCategory::class, 'sys_categoriable');
     }
 
     /**

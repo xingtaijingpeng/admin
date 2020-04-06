@@ -23,8 +23,8 @@ class CreateCategoryTables extends Migration
         });
         Schema::create('sys_categoriables', function (Blueprint $table) {
             $table->Integer('sys_category_id')->default(0)->comment('');
-            $table->string('model_type')->default('')->comment('');
-            $table->Integer('model_id')->default(0)->comment('');
+            $table->string('sys_categoriable_type')->default('')->comment('');
+            $table->Integer('sys_categoriable_id')->default(0)->comment('');
             $table->timestamps();
         });
     }
@@ -36,7 +36,7 @@ class CreateCategoryTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
-        Schema::dropIfExists('categoryables');
+        Schema::dropIfExists('sys_categories');
+        Schema::dropIfExists('sys_categoriables');
     }
 }
