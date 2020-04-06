@@ -36,6 +36,5 @@ class ArticleServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(ArticleInterface::class,ArticleRepository::class);
-        $this->app->bind(ArticleContract::class,ArticleService::class);
     }
 }

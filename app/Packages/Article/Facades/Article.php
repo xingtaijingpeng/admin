@@ -8,14 +8,14 @@
 
 namespace App\Packages\Article\Facades;
 
-use App\Packages\Article\Contracts\ArticleContract;
+use App\Packages\Article\Interfaces\ArticleInterface;
 use Illuminate\Support\Facades\Facade;
 
 class Article extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return ArticleContract::class;
+        return ArticleInterface::class;
     }
 
     public static function route($auth = false)

@@ -8,16 +8,17 @@
 
 namespace App\Models\Base;
 
-
-use App\Packages\Article\Models\Article;
+/**************** package config ****************/
+use App\Packages\Article\Models\Article as PackageArticle;
+/**************** package config ****************/
 
 class Category
 {
     /**
-     * 获取所有分配该分类的文章
+     * 获取所有分配该分类的文章 (文章扩展)
      */
     public function article()
     {
-        return $this->morphedByMany(Article::class, 'categoryable');
+        return $this->morphedByMany(PackageArticle::class, 'categoryable');
     }
 }

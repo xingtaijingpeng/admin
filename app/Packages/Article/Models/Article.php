@@ -8,8 +8,9 @@
 
 namespace App\Packages\Article\Models;
 
-
-use App\Models\Base\Category;
+/**************** package config ****************/
+use App\Models\Base\Category as BaseCategory;
+/**************** package config ****************/
 
 class Article
 {
@@ -18,6 +19,6 @@ class Article
      */
     public function categories()
     {
-        return $this->morphToMany(Category::class, 'categoryable');
+        return $this->morphToMany(BaseCategory::class, 'categoryable');
     }
 }

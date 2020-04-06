@@ -31,6 +31,6 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->success('ok',$this->article->getList());
+        return $this->success('ok',$this->article->all());
     }
 }
