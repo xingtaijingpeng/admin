@@ -28,7 +28,7 @@ class ArticleRepository implements ArticleInterface
      * @param $id
      * @return mixed
      */
-    public function getListById($id)
+    public function getListByUser($id)
     {
         // TODO: Implement getListById() method.
     }

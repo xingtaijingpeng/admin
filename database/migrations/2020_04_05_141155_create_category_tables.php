@@ -21,7 +21,7 @@ class CreateCategoryTables extends Migration
             $table->tinyInteger('status')->default(1)->comment('1正常 2停止');
             $table->timestamps();
         });
-        Schema::create('sys_categoryables', function (Blueprint $table) {
+        Schema::create('sys_categoriables', function (Blueprint $table) {
             $table->Integer('sys_category_id')->default(0)->comment('');
             $table->string('model_type')->default('')->comment('');
             $table->Integer('model_id')->default(0)->comment('');

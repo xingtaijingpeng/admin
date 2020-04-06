@@ -13,7 +13,7 @@ class CreateSysContent extends Migration
      */
     public function up()
     {
-        Schema::create('sys_content', function (Blueprint $table) {
+        Schema::create('sys_contents', function (Blueprint $table) {
             $table->string('model_type')->default('')->comment('');
             $table->Integer('model_id')->default(0)->comment('');
             $table->text('content')->comment('');

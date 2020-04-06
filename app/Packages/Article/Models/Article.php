@@ -8,17 +8,29 @@
 
 namespace App\Packages\Article\Models;
 
+use Illuminate\Database\Eloquent\Model;
 /**************** package config ****************/
-use App\Models\System\Category as BaseCategory;
+use App\Models\System\SysCategory as BaseCategory;
+use App\Models\System\SysContent as BaseContent;
 /**************** package config ****************/
 
-class Article
+class Article extends Model
 {
     /**
-     * 获取指定文章所有分类
+     * 获取分类
+     * @return mixed
      */
     public function categories()
     {
         return $this->morphToMany(BaseCategory::class, 'categoryable');
+    }
+
+    /**
+     * 获取内容
+     * @return mixed
+     */
+    public function content()
+    {
+        return $this->morphMany(BaseContent::class, 'model');
     }
 }
