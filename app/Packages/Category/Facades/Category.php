@@ -21,15 +21,16 @@ class Category extends Facade
     public static function route($auth = false)
     {
         app()->make('router')->group([
-            'prefix' => 'category'
+            'prefix' => 'category',
+            'as' => 'category.'
         ],function ($route)use($auth){
             if($auth){
-                $route->any('detail/{id}','\App\Packages\Category\Controllers\CategoryController@detail');
-                $route->any('create','\App\Packages\Category\Controllers\CategoryController@create');
-                $route->any('update/{id}','\App\Packages\Category\Controllers\CategoryController@update');
-                $route->any('delete/{id}','\App\Packages\Category\Controllers\CategoryController@delete');
+                $route->any('detail/{id}',  ['as' => 'detail','uses' => '\App\Packages\Category\Controllers\CategoryController@detail']);
+                $route->any('create',       ['as' => 'create','uses' => '\App\Packages\Category\Controllers\CategoryController@create']);
+                $route->any('update/{id}',  ['as' => 'update','uses' => '\App\Packages\Category\Controllers\CategoryController@update']);
+                $route->any('delete/{id}',  ['as' => 'delete','uses' => '\App\Packages\Category\Controllers\CategoryController@delete']);
             }else{
-                $route->any('index','\App\Packages\Category\Controllers\CategoryController@index');
+                $route->any('index',        ['as' => 'index','uses' => '\App\Packages\Category\Controllers\CategoryController@index']);
             }
         });
     }

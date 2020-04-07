@@ -21,9 +21,10 @@ class UEditor
     public static function route()
     {
         app()->make('router')->group([
-            'prefix' => 'ueditor'
+            'prefix' => 'ueditor',
+            'as' => 'ueditor.',
         ],function ($route){
-            $route->any('gate','\App\Packages\UEditor\Controller\UEditorController@gate');
+            $route->any('gate',['as' => 'gate','uses' => '\App\Packages\UEditor\Controller\UEditorController@gate']);
         });
     }
 }

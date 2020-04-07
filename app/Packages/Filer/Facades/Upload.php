@@ -21,11 +21,12 @@ class Upload extends Facade
     public static function route()
     {
         app()->make('router')->group([
-            'prefix' => 'upload'
+            'prefix' => 'upload',
+            'as' => 'upload.'
         ],function ($route){
-            $route->any('image','\App\Packages\Filer\Controller\UploadController@image');
-            $route->any('excel','\App\Packages\Filer\Controller\UploadController@excel');
-            $route->any('remove','\App\Packages\Filer\Controller\UploadController@remove');
+            $route->any('image',['as' => 'image','uses' => '\App\Packages\Filer\Controller\UploadController@image']);
+            $route->any('excel',['as' => 'excel','uses' => '\App\Packages\Filer\Controller\UploadController@excel']);
+            $route->any('remove',['as' => 'remove','uses' => '\App\Packages\Filer\Controller\UploadController@remove']);
         });
     }
 }
