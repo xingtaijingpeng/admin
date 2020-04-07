@@ -6,7 +6,7 @@
  * Time: 22:37
  */
 
-namespace App\Models\System;
+namespace App\Packages\Category\Models;
 
 use Illuminate\Database\Eloquent\Model;
 /**************** package config ****************/
@@ -20,6 +20,6 @@ class SysCategory extends Model
      */
     public function article()
     {
-        return $this->morphedByMany(PackageArticle::class, 'categoryable');
+        return $this->morphedByMany(PackageArticle::class, 'sys_categoriable');
     }
 }

@@ -10,7 +10,7 @@ namespace App\Packages\Article\Models;
 
 use Illuminate\Database\Eloquent\Model;
 /**************** package config ****************/
-use App\Models\System\SysCategory as BaseCategory;
+use App\Packages\Category\Models\SysCategory as BaseCategory;
 use App\Models\System\SysContent as BaseContent;
 /**************** package config ****************/
 
