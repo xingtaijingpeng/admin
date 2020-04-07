@@ -2,11 +2,15 @@
 
 namespace App\Exceptions;
 
+use App\Http\Traits\ResponseTrait;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
+    use ResponseTrait;
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -47,6 +51,9 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         header('Access-Control-Allow-Origin: *');
+        if($exception instanceof ValidationException){
+            return $this->error(\Arr::first($exception->errors())[0]);
+        }
         return parent::render($request, $exception);
     }
 }

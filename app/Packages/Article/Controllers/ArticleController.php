@@ -41,7 +41,7 @@ class ArticleController extends Controller
      * @param $id
      * @return Article
      */
-    public function detail($id)
+    public function detail(Request $request,$id)
     {
         return new Article($this->article->find($id));
     }
@@ -53,19 +53,68 @@ class ArticleController extends Controller
      */
     public function create(Request $request)
     {
-        return $this->exception(function (){
+        $this->validate($request,[
+            'title' => ['required'],
+            'cover' => ['required'],
+            'content' => ['required'],
+            'category_id' => ['required'],
+        ],[
+            'title.required' => '请填写标题',
+            'cover.required' => '请上传图片',
+            'content.required' => '请填写内容',
+            'category_id.required' => '请选择分类',
+        ]);
+
+        return $this->exception(function ()use($request){
             $this->article->create([
                 'status' => 1,
                 'user_id' => \Auth::user()->id,
-                'title' => '测试标题',
-                'cover' => '缩略图',
-                'content' => '这里是文章内容',
-                'category_id' => 1
+                'title' => $request->title,
+                'cover' => $request->cover,
+                'content' => $request->content,
+                'category_id' => $request->category_id,
             ]);
             return $this->success('ok');
         },true);
     }
 
+    /**
+     * 更新文章
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    public function update(Request $request,$id){
+
+        $this->validate($request,[
+            'title' => ['required'],
+            'cover' => ['required'],
+            'content' => ['required'],
+            'category_id' => ['required'],
+        ],[
+            'title.required' => '请填写标题',
+            'cover.required' => '请上传图片',
+            'content.required' => '请填写内容',
+            'category_id.required' => '请选择分类',
+        ]);
+
+        return $this->exception(function ()use($request,$id){
+            $this->article->update([
+                'status' => 1,
+                'user_id' => \Auth::user()->id,
+                'title' => $request->title,
+                'cover' => $request->cover,
+                'content' => $request->content,
+                'category_id' => $request->category_id,
+            ],$id);
+            return $this->success('ok');
+        },true);
+    }
+
+    /**
+     * 删除文章
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
     public function delete($id){
 
         return $this->exception(function ()use($id){
