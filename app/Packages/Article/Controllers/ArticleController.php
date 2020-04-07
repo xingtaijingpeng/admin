@@ -9,7 +9,6 @@
 namespace App\Packages\Article\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Traits\ResponseTrait;
 use App\Packages\Article\Interfaces\ArticleInterface;
 use App\Packages\Article\Resources\Article;
 use App\Packages\Article\Resources\ArticleCollection;
@@ -17,8 +16,6 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    use ResponseTrait;
-
     private $article;
 
     public function __construct(ArticleInterface $article)

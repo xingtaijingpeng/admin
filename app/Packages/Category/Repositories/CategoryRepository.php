@@ -10,6 +10,7 @@ namespace App\Packages\Category\Repositories;
 
 
 use App\Packages\Category\Interfaces\CategoryInterface;
+use App\Packages\Category\Models\SysCategory;
 
 class CategoryRepository implements CategoryInterface
 {
@@ -18,9 +19,9 @@ class CategoryRepository implements CategoryInterface
      * 获取全部分类列表
      * @return mixed
      */
-    public function paginate($size)
+    public function paginate($size,$guard)
     {
-        // TODO: Implement paginate() method.
+        return SysCategory::where('guard',$guard)->paginate($size);
     }
 
     /**
@@ -30,7 +31,7 @@ class CategoryRepository implements CategoryInterface
      */
     public function find($id)
     {
-        // TODO: Implement find() method.
+        return SysCategory::find($id);
     }
 
     /**
@@ -40,7 +41,7 @@ class CategoryRepository implements CategoryInterface
      */
     public function create($data)
     {
-        // TODO: Implement create() method.
+        return SysCategory::create($data);
     }
 
     /**
@@ -50,7 +51,7 @@ class CategoryRepository implements CategoryInterface
      */
     public function update($data, $id)
     {
-        // TODO: Implement update() method.
+        return SysCategory::where('id', $id)->update($data);
     }
 
     /**
@@ -60,6 +61,8 @@ class CategoryRepository implements CategoryInterface
      */
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        return SysCategory::where('id',$id)->update([
+            'status' => 9
+        ]);
     }
 }

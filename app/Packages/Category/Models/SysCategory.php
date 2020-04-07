@@ -15,6 +15,8 @@ use App\Packages\Article\Models\Article as PackageArticle;
 
 class SysCategory extends Model
 {
+    protected $guarded = [];
+
     /**
      * 获取所有分配该分类的文章 (文章扩展)
      */

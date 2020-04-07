@@ -15,7 +15,7 @@ interface CategoryInterface
      * 获取全部分类列表
      * @return mixed
      */
-    public function paginate($size);
+    public function paginate($size,$guard);
 
     /**
      * 查找

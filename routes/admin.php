@@ -22,9 +22,11 @@ Route::post('token', ['as' => 'token','uses' => 'LoginController@token']);
 Route::post('refresh', ['as' => 'refresh','uses' => 'LoginController@refresh']);
 UEditor::route();
 Article::route();
+Category::route();
 
 Route::group(['middleware' => ['auth:admin']], function () {
     Article::route(true);
+    Category::route(true);
     Upload::route();
     Route::post('logout', ['as' => 'logout','uses' => 'LoginController@logout']);
     Route::post('userinfo', ['as' => 'userinfo','uses' => 'IndexController@userinfo']);
