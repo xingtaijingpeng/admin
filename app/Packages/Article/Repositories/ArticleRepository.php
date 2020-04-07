@@ -11,20 +11,9 @@ namespace App\Packages\Article\Repositories;
 
 use App\Packages\Article\Interfaces\ArticleInterface;
 use App\Packages\Article\Models\Article;
-use App\Repositories\Repositories;
 
-class ArticleRepository extends Repositories implements ArticleInterface
+class ArticleRepository implements ArticleInterface
 {
-    /**
-     * Specify Model class name
-     *
-     * @return string
-     */
-    public function model()
-    {
-        return Article::class;
-    }
-
     /**
      * 获取全部文章列表
      * @return mixed
