@@ -26,13 +26,12 @@ class ArticleRepository implements ArticleInterface
     }
 
     /**
-     * 通过ID获取文章列表
+     * 获取详情
      * @param $id
      * @return mixed
      */
-    public function getListByUser($id)
-    {
-        // TODO: Implement getListById() method.
+    public function find($id){
+        return Article::find($id);
     }
 
     /**
@@ -59,11 +58,28 @@ class ArticleRepository implements ArticleInterface
      * @return array
      */
     public function update($data,$id){
-        $art = [];
+        $art = Article::where('id', $id)->update(\Arr::except($data,['content','category_id']));
+        $art->content()->delete();
+        $art->content()->create([
+            'content' => $data['content']
+        ]);
+        $art->categories()->sync([
+            'sys_category_id' => $data['category_id']
+        ]);
         return $art;
     }
 
-    public function delete($id){
-
+    /**
+     * 删除文章
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        $art = Article::find($id);
+        $art->content()->delete();
+        $art->categories()->sync([]);
+        $art->delete();
+        return true;
     }
 }

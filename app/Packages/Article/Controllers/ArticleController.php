@@ -11,6 +11,7 @@ namespace App\Packages\Article\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\ResponseTrait;
 use App\Packages\Article\Interfaces\ArticleInterface;
+use App\Packages\Article\Resources\Article;
 use App\Packages\Article\Resources\ArticleCollection;
 use Illuminate\Http\Request;
 
@@ -35,9 +36,14 @@ class ArticleController extends Controller
         return new ArticleCollection($this->article->paginate($this->pagesize()));
     }
 
+    /**
+     * 文章详情
+     * @param $id
+     * @return Article
+     */
     public function detail($id)
     {
-
+        return new Article($this->article->find($id));
     }
 
     /**
@@ -58,5 +64,13 @@ class ArticleController extends Controller
             ]);
             return $this->success('ok');
         },true);
+    }
+
+    public function delete($id){
+
+        return $this->exception(function ()use($id){
+            $this->article->delete($id);
+            return $this->success('success');
+        });
     }
 }

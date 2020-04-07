@@ -18,11 +18,11 @@ interface ArticleInterface
     public function paginate($size);
 
     /**
-     * 通过ID获取文章列表
+     * 查找
      * @param $id
      * @return mixed
      */
-    public function getListByUser($id);
+    public function find($id);
 
     /**
      * 添加文章
@@ -30,4 +30,19 @@ interface ArticleInterface
      * @return mixed
      */
     public function create($data);
+
+    /**
+     * 修改文章
+     * @param $data
+     * @return mixed
+     */
+    public function update($data,$id);
+
+    /**
+     * 删除文章
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id);
+
 }
