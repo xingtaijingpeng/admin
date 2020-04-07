@@ -21,15 +21,16 @@ class Article extends Facade
     public static function route($auth = false)
     {
         app()->make('router')->group([
-            'prefix' => 'article'
+            'prefix' => 'article',
+            'as' => 'article.'
         ],function ($route)use($auth){
             if($auth){
-                $route->any('detail/{id}','\App\Packages\Article\Controllers\ArticleController@detail');
-                $route->any('create','\App\Packages\Article\Controllers\ArticleController@create');
-                $route->any('update/{id}','\App\Packages\Article\Controllers\ArticleController@update');
-                $route->any('delete/{id}','\App\Packages\Article\Controllers\ArticleController@delete');
+                $route->any('detail/{id}',  ['as' => 'detail','uses' => '\App\Packages\Article\Controllers\ArticleController@detail']);
+                $route->any('create',       ['as' => 'create','uses' => '\App\Packages\Article\Controllers\ArticleController@create']);
+                $route->any('update/{id}',  ['as' => 'update','uses' => '\App\Packages\Article\Controllers\ArticleController@update']);
+                $route->any('delete/{id}',  ['as' => 'delete','uses' => '\App\Packages\Article\Controllers\ArticleController@delete']);
             }else{
-                $route->any('index','\App\Packages\Article\Controllers\ArticleController@index');
+                $route->any('index',        ['as' => 'index', 'uses' => '\App\Packages\Article\Controllers\ArticleController@index']);
             }
         });
     }
