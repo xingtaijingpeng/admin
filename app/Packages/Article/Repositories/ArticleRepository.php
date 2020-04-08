@@ -18,10 +18,10 @@ class ArticleRepository implements ArticleInterface
      * 获取全部文章列表
      * @return mixed
      */
-    public function paginate($size,$guard = 'admin')
+    public function paginate($size)
     {
-        return Article::whereHas('categories',function ($query)use($guard){
-            $query->where('guard',$guard);
+        return Article::whereHas('categories',function ($query){
+            $query->where('guard',request('guard'));
         })->paginate($size);
     }
 
@@ -58,7 +58,8 @@ class ArticleRepository implements ArticleInterface
      * @return array
      */
     public function update($data,$id){
-        $art = Article::where('id', $id)->update(\Arr::except($data,['content','category_id']));
+        $art = Article::find($id);
+        $art->update(\Arr::except($data,['content','category_id']));
         $art->content()->delete();
         $art->content()->create([
             'content' => $data['content']

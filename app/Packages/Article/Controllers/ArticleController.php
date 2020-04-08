@@ -53,12 +53,10 @@ class ArticleController extends Controller
         $this->validate($request,[
             'title' => ['required'],
             'cover' => ['required'],
-            'content' => ['required'],
             'category_id' => ['required'],
         ],[
             'title.required' => '请填写标题',
             'cover.required' => '请上传图片',
-            'content.required' => '请填写内容',
             'category_id.required' => '请选择分类',
         ]);
 
@@ -68,8 +66,12 @@ class ArticleController extends Controller
                 'user_id' => \Auth::user()->id,
                 'title' => $request->title,
                 'cover' => $request->cover,
-                'content' => $request->content,
+                'content' => $request->content ?? '',
                 'category_id' => $request->category_id,
+                'url' => $request->url ?? '',
+                'price' => $request->price ?? 0,
+                'old_price' => $request->old_price ?? 0,
+                'opened_at' => $request->opened_at ?? null,
             ]);
             return $this->success('ok');
         },true);
@@ -85,12 +87,10 @@ class ArticleController extends Controller
         $this->validate($request,[
             'title' => ['required'],
             'cover' => ['required'],
-            'content' => ['required'],
             'category_id' => ['required'],
         ],[
             'title.required' => '请填写标题',
             'cover.required' => '请上传图片',
-            'content.required' => '请填写内容',
             'category_id.required' => '请选择分类',
         ]);
 
@@ -100,8 +100,12 @@ class ArticleController extends Controller
                 'user_id' => \Auth::user()->id,
                 'title' => $request->title,
                 'cover' => $request->cover,
-                'content' => $request->content,
+                'content' => $request->content ?? '',
                 'category_id' => $request->category_id,
+				'url' => $request->url ?? '',
+				'price' => $request->price ?? 0,
+				'old_price' => $request->old_price ?? 0,
+				'opened_at' => $request->opened_at ?? null,
             ],$id);
             return $this->success('ok');
         },true);
