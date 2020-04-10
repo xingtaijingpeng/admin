@@ -76,4 +76,7 @@ class User extends Authenticatable implements JWTSubject
     public function getGuardAttribute(){
         return config('auth.defaults.guard');
     }
+    public function getGuardNameAttribute(){
+        return config('auth.defaults.guard');
+    }
 }

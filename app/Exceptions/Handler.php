@@ -50,10 +50,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        header('Access-Control-Allow-Origin: *');
         if($exception instanceof ValidationException){
             return $this->error(\Arr::first($exception->errors())[0]);
         }
+        header('Access-Control-Allow-Origin: *');
         return parent::render($request, $exception);
     }
 }
