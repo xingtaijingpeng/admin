@@ -8,15 +8,47 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\Test;
+use App\Models\BaseInfo;
 use App\Resources\User as UserResource;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Http\Request;
 
 class IndexController extends InitController
 {
+    /**
+     * 基础信息
+     * @param Request $request
+     */
+    public function baseInfo(Request $request)
+    {
+        $res = BaseInfo::find(1);
+        return $this->success('success',[
+            'logo' => $res->logo,
+            'banquan' => $res->banquan,
+            'banner' => json_decode($res->banner,true),
+            'content' => $res->content,
+        ]);
+
+    }
+
+    /**
+     * 修改基础信息
+     * @param Request $request
+     */
+    public function baseUpdate(Request $request)
+    {
+        $data = [
+            'logo' => $request->logo,
+            'banquan' => $request->banquan,
+            'banner' => $request->banner ? json_encode($request->banner):'',
+            'content' => $request->content,
+        ];
+        BaseInfo::where('id',1)->update(array_filter($data));
+
+        return $this->success('success');
+    }
     /**
      * @return string
      * index

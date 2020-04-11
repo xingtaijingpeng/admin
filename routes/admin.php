@@ -33,6 +33,9 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Category::route(true);
     Upload::route();
 
+    Route::any('base/info', ['as' => 'base.info','uses' => 'IndexController@baseInfo']);
+    Route::any('base/update', ['as' => 'base.update','uses' => 'IndexController@baseUpdate']);
+
     Route::group(['prefix' => 'system', 'as' => 'system.', 'namespace' => 'System'], function () {
         Route::group(['prefix' => 'develop', 'as' => 'develop.', 'namespace' => 'Develop'], function () {
 
