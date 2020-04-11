@@ -17,6 +17,7 @@ class CreateCategoryTables extends Migration
             $table->increments('id');
             $table->string('guard')->default('')->comment('守卫');
             $table->string('name')->default('')->comment('');
+            $table->Integer('sort')->default(0)->comment('');
             $table->Integer('parent_id')->default(0)->comment('');
             $table->tinyInteger('status')->default(1)->comment('1正常 2停止');
             $table->timestamps();

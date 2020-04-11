@@ -19,9 +19,13 @@ class CategoryRepository implements CategoryInterface
      * 获取全部分类列表
      * @return mixed
      */
-    public function paginate($size,$guard)
+    public function all($guard)
     {
-        return SysCategory::where('guard',$guard)->paginate($size);
+        $category = SysCategory::where('guard',$guard)->get()->buildTree();
+        if(request()->merge){
+            $category = $category->mergeTree();
+        }
+        return $category;
     }
 
     /**
@@ -62,7 +66,7 @@ class CategoryRepository implements CategoryInterface
     public function delete($id)
     {
         return SysCategory::where('id',$id)->update([
-            'status' => 9
+            'status' => 2
         ]);
     }
 }

@@ -28,13 +28,13 @@ class CategoryController extends Controller
     }
 
     /**
-     * 分类列表
+     * 分类列表不分页
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        return new CategoryCollection($this->category->paginate($this->pagesize(),$request->guard));
+        return new CategoryCollection($this->category->all($request->guard));
     }
 
     /**
@@ -92,6 +92,7 @@ class CategoryController extends Controller
             $this->category->update([
                 'status' => $request->status ?? 1,
                 'guard' => $request->guard,
+                'sort' => $request->sort,
                 'name' => $request->name,
                 'parent_id' => $request->parent_id ?? 0,
             ],$id);
