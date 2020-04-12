@@ -23,6 +23,7 @@ class CreateArticleTables extends Migration
             $table->tinyInteger('status')->default(0)->comment('1正常 2审核 3下架 4删除');
             $table->integer('user_id')->default(0)->comment('发布人ID');
             $table->string('title')->default('')->comment('');
+            $table->string('description')->default('')->comment('');
             $table->string('cover')->default('')->comment('');
             $table->string('url')->default('')->comment('外部链接');
             $table->integer('price')->default(0)->comment('价格');
