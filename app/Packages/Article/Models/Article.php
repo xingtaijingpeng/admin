@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 /**************** package config ****************/
 use App\Packages\Category\Models\SysCategory as BaseCategory;
 use App\Models\System\SysContent as BaseContent;
+use App\Models\User as BaseUser;
 /**************** package config ****************/
 
 class Article extends Model
@@ -34,4 +35,12 @@ class Article extends Model
     {
         return $this->morphOne(BaseContent::class, 'model');
     }
+
+	/**
+	 * 创建者
+	 * @return mixed
+	 */
+    public function user(){
+    	return $this->belongsTo(BaseUser::class,'user_id');
+	}
 }

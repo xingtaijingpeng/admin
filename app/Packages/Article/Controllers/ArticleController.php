@@ -53,10 +53,12 @@ class ArticleController extends Controller
         $this->validate($request,[
             'title' => ['required'],
             'cover' => ['required'],
+            'content' => ['required'],
             'category_id' => ['required'],
         ],[
             'title.required' => '请填写标题',
             'cover.required' => '请上传图片',
+            'content.required' => '请填写内容',
             'category_id.required' => '请选择分类',
         ]);
 
@@ -65,6 +67,7 @@ class ArticleController extends Controller
                 'status' => 1,
                 'user_id' => \Auth::user()->id,
                 'title' => $request->title,
+                'hot' => $request->hot,
                 'description' => $request->description,
                 'cover' => $request->cover,
                 'content' => $request->content ?? '',
@@ -99,7 +102,8 @@ class ArticleController extends Controller
             $this->article->update([
                 'status' => 1,
                 'user_id' => \Auth::user()->id,
-                'title' => $request->title,
+				'hot' => $request->hot,
+				'title' => $request->title,
                 'description' => $request->description,
                 'cover' => $request->cover,
                 'content' => $request->content ?? '',
