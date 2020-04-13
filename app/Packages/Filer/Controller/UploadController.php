@@ -41,13 +41,13 @@ class UploadController extends Controller
 
             $uploadFile = $request->file('file') ?? [];
 
-            $this->checkMimeTypes($uploadFile,[
-                'image/jpeg',
-                'image/png',
-                'image/gif',
-                'image/bmp',
-                'image/svg+xml',
-            ]);
+//            $this->checkMimeTypes($uploadFile,[
+//                'image/jpeg',
+//                'image/png',
+//                'image/gif',
+//                'image/bmp',
+//                'image/svg+xml',
+//            ]);
 
             $url = config('app.url').'/'.$this->upload->image('storage/images/'.date('Y/m/d'),$uploadFile);
 
