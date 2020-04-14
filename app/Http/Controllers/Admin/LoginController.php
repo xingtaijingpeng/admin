@@ -10,6 +10,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use AlibabaCloud\Client\AlibabaCloud;
+use AlibabaCloud\Client\Exception\ClientException;
+use AlibabaCloud\Client\Exception\ServerException;
 
 class LoginController extends InitController
 {
@@ -67,5 +70,40 @@ class LoginController extends InitController
         auth('admin')->logout();
         return $this->success('success');
     }
+
+	/**
+	 * 发送短信
+	 */
+    public function sms()
+	{
+
+		AlibabaCloud::accessKeyClient('LTAIHu0bFK0fG3Ia', 'j2ie4qdir49cML0ixR6ggjo8FcmLfI')
+			->regionId('cn-hangzhou')
+			->asDefaultClient();
+
+		try {
+			$result = AlibabaCloud::rpc()
+				->product('Dysmsapi')
+				->version('2017-05-25')
+				->action('SendSms')
+				->method('POST')
+				->host('dysmsapi.aliyuncs.com')
+				->options([
+					'query' => [
+						'RegionId' => "cn-hangzhou",
+						'PhoneNumbers' => "18310319013",
+						'SignName' => "TinyUse微用",
+						'TemplateCode' => "SMS_68070321",
+						'TemplateParam' => '{"code":"123456"}',
+					],
+				])
+				->request();
+			info($result->toArray());
+		} catch (ClientException $e) {
+			info($e->getMessage());
+		} catch (ServerException $e) {
+			info($e->getMessage());
+		}
+	}
 
 }
