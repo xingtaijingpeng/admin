@@ -34,10 +34,10 @@ class SmsService
 			->options([
 				'query' => [
 					'RegionId' => "cn-hangzhou",
-					'PhoneNumbers' => $mobile,
+					'PhoneNumbers' => "{$mobile}",
 					'SignName' => "TinyUse微用",
 					'TemplateCode' => "SMS_68070321",
-					'TemplateParam' => $code,
+					'TemplateParam' => "{$code}",
 				],
 			])
 			->request();
