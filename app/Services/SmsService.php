@@ -10,6 +10,8 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Redis;
 use AlibabaCloud\Client\AlibabaCloud;
+use AlibabaCloud\Client\Exception\ClientException;
+use AlibabaCloud\Client\Exception\ServerException;
 
 class SmsService
 {
@@ -20,7 +22,6 @@ class SmsService
 			throw new \Exception('1分钟只允许发送一条');
 		}
 		$code = rand(100000,999999);
-
 		AlibabaCloud::accessKeyClient('LTAIHu0bFK0fG3Ia', 'j2ie4qdir49cML0ixR6ggjo8FcmLfI')
 			->regionId('cn-hangzhou')
 			->asDefaultClient();
@@ -37,7 +38,9 @@ class SmsService
 					'PhoneNumbers' => "{$mobile}",
 					'SignName' => "TinyUse微用",
 					'TemplateCode' => "SMS_68070321",
-					'TemplateParam' => "{$code}",
+					'TemplateParam' => json_encode([
+						"code" => $code
+					]),
 				],
 			])
 			->request();
