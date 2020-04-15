@@ -9,15 +9,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
-use AlibabaCloud\Client\AlibabaCloud;
-use AlibabaCloud\Client\Exception\ClientException;
-use AlibabaCloud\Client\Exception\ServerException;
 
 class LoginController extends InitController
 {
 
-    /**
+	public function __construct(SmsService $service)
+	{
+		$this->service = $service;
+	}
+
+	/**
      * 获取token
      */
     public function token(Request $request){
@@ -73,37 +76,62 @@ class LoginController extends InitController
 
 	/**
 	 * 发送短信
+	 * @param Request $request
 	 */
-    public function sms()
+    public function sms(Request $request)
 	{
-
-		AlibabaCloud::accessKeyClient('LTAIHu0bFK0fG3Ia', 'j2ie4qdir49cML0ixR6ggjo8FcmLfI')
-			->regionId('cn-hangzhou')
-			->asDefaultClient();
+		$this->validate($request, [
+			'mobile' => ['required','exists:users'],
+		], [
+			'mobile.required' => '请填写手机号',
+			'mobile.exists' => '管理员不存在',
+		]);
 
 		try {
-			$result = AlibabaCloud::rpc()
-				->product('Dysmsapi')
-				->version('2017-05-25')
-				->action('SendSms')
-				->method('POST')
-				->host('dysmsapi.aliyuncs.com')
-				->options([
-					'query' => [
-						'RegionId' => "cn-hangzhou",
-						'PhoneNumbers' => "18310319013",
-						'SignName' => "TinyUse微用",
-						'TemplateCode' => "SMS_68070321",
-						'TemplateParam' => '{"code":"123456"}',
-					],
-				])
-				->request();
-			info($result->toArray());
-		} catch (ClientException $e) {
-			info($e->getMessage());
-		} catch (ServerException $e) {
-			info($e->getMessage());
+			$this->service->index($request->mobile);
+			return $this->success('发送成功');
+
+		} catch (\Exception $e) {
+			return $this->error($e->getMessage());
 		}
+	}
+
+	/**
+	 * 重置密码
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function forget(Request $request){
+
+		$this->validate($request, [
+			'mobile' => ['required'],
+			'password' => ['required','confirmed'],
+			'code' => ['required',function($attribute, $value, $fail) use($request) {
+				if ($value != $this->service->getCode($request->mobile)) {
+					return $fail('验证码错误');
+				}
+			},],
+		], [
+			'mobile.required' => '请填写手机号',
+			'password.required' => '缺少密码',
+			'password.confirmed' => '确认密码不匹配',
+			'code.required' => '缺少code',
+			'code.same' => '验证码错误',
+		]);
+
+
+
+		$user = User::where('mobile',$request->mobile)->first();
+
+		$user->password = bcrypt($request->password);
+
+		$user->save();
+
+		$token = auth('admin')->login($user);
+
+		return $this->success('success',[
+			'token' => $token ?? ''
+		]);
 	}
 
 }

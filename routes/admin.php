@@ -20,7 +20,8 @@ Route::get('mail', ['as' => 'mail','uses' => 'IndexController@mail']);
 //token
 Route::post('token', ['as' => 'token','uses' => 'LoginController@token']);
 Route::post('refresh', ['as' => 'refresh','uses' => 'LoginController@refresh']);
-Route::post('sms', ['as' => 'refresh','uses' => 'LoginController@sms']);
+Route::post('forget', ['as' => 'forget','uses' => 'LoginController@forget']);
+Route::post('sms', ['as' => 'sms','uses' => 'LoginController@sms']);
 
 UEditor::route();
 Article::route();
