@@ -9,7 +9,9 @@
 namespace App\Packages\Order\Repositories;
 
 
-class OrderRepository
+use App\Packages\Order\Interfaces\OrderInterface;
+
+class OrderRepository implements OrderInterface
 {
 
 }

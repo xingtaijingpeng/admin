@@ -9,7 +9,7 @@
 namespace App\Packages\Order\Interfaces;
 
 
-class OrderInterface
+interface OrderInterface
 {
 
 }

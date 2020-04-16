@@ -8,8 +8,10 @@
 
 namespace App\Packages\Order\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
-class OrdOrder
+class OrdOrder extends Model
 {
+	protected $guarded = [];
 
 }
