@@ -9,7 +9,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\BaseInfo;
+use App\Models\User;
 use App\Resources\User as UserResource;
+use App\Resources\UserCollection;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -92,4 +94,16 @@ class IndexController extends InitController
 
         return new UserResource($user);
     }
+
+	/**
+	 * 用户列表
+	 * @param Request $request
+	 */
+    public function users(Request $request)
+	{
+		$lists = User::whereRaw('type & '.User::MEMBER_TYPE)->paginate($this->pagesize());
+
+		return new UserCollection($lists);
+
+	}
 }
