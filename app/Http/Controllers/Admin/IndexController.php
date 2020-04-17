@@ -10,6 +10,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\BaseInfo;
 use App\Models\User;
+use App\Packages\Order\Interfaces\OrderInterface;
+use App\Resources\Admin\OrderCollection;
 use App\Resources\User as UserResource;
 use App\Resources\UserCollection;
 use Illuminate\Support\Facades\Mail;
@@ -19,7 +21,13 @@ use Illuminate\Http\Request;
 
 class IndexController extends InitController
 {
-    /**
+
+	public function __construct(OrderInterface $order)
+	{
+		$this->order = $order;
+	}
+
+	/**
      * 基础信息
      * @param Request $request
      */
@@ -105,5 +113,17 @@ class IndexController extends InitController
 
 		return new UserCollection($lists);
 
+	}
+
+	/**
+	 * 订单列表
+	 * @param Request $request
+	 * @return UserCollection
+	 */
+	public function orders(Request $request){
+
+		$lists = $this->order->paginate($this->pagesize());
+
+		return new OrderCollection($lists);
 	}
 }

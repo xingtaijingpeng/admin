@@ -10,8 +10,18 @@ namespace App\Packages\Order\Repositories;
 
 
 use App\Packages\Order\Interfaces\OrderInterface;
+use App\Packages\Order\Models\OrdOrder;
 
 class OrderRepository implements OrderInterface
 {
 
+	/**
+	 * 订单分页通过where
+	 * @param $pageSize
+	 * @return mixed
+	 */
+	public function paginate($pageSize)
+	{
+		return OrdOrder::where(request()->toArray())->orderBy('id','DESC')->paginate($pageSize);
+	}
 }
