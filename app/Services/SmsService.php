@@ -22,7 +22,7 @@ class SmsService
 			throw new \Exception('1分钟只允许发送一条');
 		}
 		$code = rand(100000,999999);
-		AlibabaCloud::accessKeyClient('', '')
+		AlibabaCloud::accessKeyClient(env('ALIKEY'), env('ALIPWD'))
 			->regionId('cn-hangzhou')
 			->asDefaultClient();
 
