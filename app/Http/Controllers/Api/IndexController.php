@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\BaseInfo;
 use App\Models\User;
 
 class IndexController extends Controller
@@ -17,8 +18,13 @@ class IndexController extends Controller
      * @return string
      * index
      */
-    public function index(){
-        return 'apis';
+    public function base(){
+
+        //获取基本信息
+
+        $base = BaseInfo::find(1);
+        $base->banner = json_decode($base->banner,true);
+        return $this->success('ok',$base);
     }
 
     /**
