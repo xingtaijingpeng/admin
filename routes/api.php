@@ -14,6 +14,8 @@
 //index
 Route::any('/index', ['as' => 'index','uses' => 'IndexController@index']);
 Route::any('/base', ['as' => 'base','uses' => 'IndexController@base']);
+Article::route();
+Category::route();
 
 //token
 Route::get('token', ['as' => 'token','uses' => 'IndexController@token']);

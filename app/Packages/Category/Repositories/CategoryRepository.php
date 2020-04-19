@@ -21,7 +21,15 @@ class CategoryRepository implements CategoryInterface
      */
     public function all($guard)
     {
-        $category = SysCategory::where('guard',$guard)->get()->buildTree();
+        $category = SysCategory::where('guard',$guard);
+
+        if(request('parent_id')){
+            $category = $category->where('parent_id',request('parent_id'));
+
+            return $category->get();
+        }
+
+        $category = $category->get()->buildTree();
         if(request()->merge){
             $category = $category->mergeTree();
         }

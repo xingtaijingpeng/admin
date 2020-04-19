@@ -20,9 +20,16 @@ class ArticleRepository implements ArticleInterface
      */
     public function paginate($size)
     {
-        return Article::whereHas('categories',function ($query){
+        $list = Article::whereHas('categories',function ($query){
             $query->where('guard',request('guard'));
-        })->paginate($size);
+        });
+        if(request('order') && request('order_type')){
+            $list = $list->orderBy(request('order'),request('order_type'));
+        }
+        if(request('hot')){
+            $list = $list->where('hot',request('hot'));
+        }
+        return $list->paginate($size);
     }
 
     /**
