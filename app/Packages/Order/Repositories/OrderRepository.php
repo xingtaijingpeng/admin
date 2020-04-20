@@ -22,6 +22,6 @@ class OrderRepository implements OrderInterface
 	 */
 	public function paginate($pageSize)
 	{
-		return OrdOrder::where(request()->toArray())->orderBy('id','DESC')->paginate($pageSize);
+		return OrdOrder::where(\Arr::except(request('data'),['']))->orderBy('id','DESC')->paginate($pageSize);
 	}
 }
