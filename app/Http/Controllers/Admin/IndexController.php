@@ -9,8 +9,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\BaseInfo;
+use App\Models\Comment;
 use App\Models\User;
 use App\Packages\Order\Interfaces\OrderInterface;
+use App\Resources\Admin\CommentCollection;
 use App\Resources\Admin\OrderCollection;
 use App\Resources\User as UserResource;
 use App\Resources\UserCollection;
@@ -25,6 +27,62 @@ class IndexController extends InitController
 	public function __construct(OrderInterface $order)
 	{
 		$this->order = $order;
+	}
+
+	/**
+	 * 评论列表
+	 * @param $id
+	 */
+	public function comment($id)
+	{
+		$lists = Comment::where('model_id',$id)->orderBy('id','DESC')->paginate($this->pagesize());
+
+		return new CommentCollection($lists);
+	}
+
+	/**
+	 * 添加评论
+	 */
+	public function commentcreate(Request $request)
+	{
+		Comment::create([
+			'model_id' => $request->aid ?? 0,
+			'cover' => $request->cover ?? '',
+			'contents' => $request->contents ?? '',
+		]);
+
+		return $this->success('ok');
+	}
+
+	/**
+	 * 删除评论
+	 * @param $id
+	 */
+	public function commentdelete($id)
+	{
+		Comment::find($id)->delete();
+		return $this->success('ok');
+	}
+
+	/**
+	 * 评论详情
+	 * @param $id
+	 */
+	public function commentdetail($id)
+	{
+		return new \App\Resources\Admin\Comment(Comment::find($id));
+	}
+
+	/**
+	 * 修改评论
+	 * @param $id
+	 */
+	public function commentupdate(Request $request,$id)
+	{
+		$c = Comment::find($id);
+
+		$c->update(\Arr::except($request->toArray(),['aid']));
+		return $this->success('ok');
 	}
 
 	/**

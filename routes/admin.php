@@ -30,6 +30,11 @@ Category::route();
 Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('logout', ['as' => 'logout','uses' => 'LoginController@logout']);
     Route::post('userinfo', ['as' => 'userinfo','uses' => 'IndexController@userinfo']);
+    Route::post('comment/{id}', ['as' => 'comment','uses' => 'IndexController@comment']);
+    Route::post('comments/create', ['as' => 'comment','uses' => 'IndexController@commentcreate']);
+    Route::post('comments/update/{id}', ['as' => 'comment','uses' => 'IndexController@commentupdate']);
+    Route::post('comments/detail/{id}', ['as' => 'comment','uses' => 'IndexController@commentdetail']);
+    Route::post('comments/delete/{id}', ['as' => 'comment','uses' => 'IndexController@commentdelete']);
 
     Article::route(true);
     Category::route(true);
