@@ -22,6 +22,9 @@ class ArticleRepository implements ArticleInterface
     {
         $list = Article::whereHas('categories',function ($query){
             $query->where('guard',request('guard'));
+            if($categorys = request('categorys')){
+				$query->whereIn('id',$categorys);
+			}
         });
         if(request('order') && request('order_type')){
             $list = $list->orderBy(request('order'),request('order_type'));
