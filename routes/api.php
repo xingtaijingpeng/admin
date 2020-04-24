@@ -16,9 +16,11 @@ Route::any('/index', ['as' => 'index','uses' => 'IndexController@index']);
 Route::any('/base', ['as' => 'base','uses' => 'IndexController@base']);
 Article::route();
 Category::route();
+Route::post('sms', ['as' => 'sms','uses' => 'IndexController@sms']);
 
 //token
-Route::get('token', ['as' => 'token','uses' => 'IndexController@token']);
+Route::post('token', ['as' => 'token','uses' => 'IndexController@token']);
+Route::post('register', ['as' => 'register','uses' => 'IndexController@register']);
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::any('userinfo', ['as' => 'userinfo','uses' => 'IndexController@userinfo']);
