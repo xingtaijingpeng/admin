@@ -66,14 +66,59 @@ class IndexController extends Controller
     }
 
     /**
+     * 更改头像
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeCover(Request $request)
+    {
+        $user = \Auth::user();
+        $user->avatar = $request->cover;
+        $user->save();
+        return $this->success('success');
+    }
+
+    /**
+     * 修改密码
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changePassword(Request $request)
+    {
+        $this->validate($request, [
+            'password_old' => ['required'],
+            'password' => ['required','confirmed'],
+        ], [
+            'password_old.required' => '缺少原始密码',
+            'password.required' => '缺少新密码',
+            'password.confirmed' => '确认新密码不匹配',
+        ]);
+
+        try {
+
+            $user = \Auth::user();
+
+            if(!\Hash::check($request['password_old'],$user->password)){
+                return $this->error('原始密码错误');
+            }
+
+            $user->password = bcrypt($request->password);
+            $user->save();
+
+            return $this->success('success');
+
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
+
+    /**
      * 用户信息
      */
     public function userinfo(){
         $user = \Auth::user();
 
-		return $this->success('success',[
-			'user' => $user
-		]);
+		return $this->success('success',$user);
     }
 
 	/**
@@ -131,6 +176,52 @@ class IndexController extends Controller
 				'password' => bcrypt($request->password),
 				'type' => User::MEMBER_TYPE
 			]);
+
+			$user->password = bcrypt($request->password);
+
+			$user->save();
+
+			$token = auth('admin')->login($user);
+
+			return $this->success('success',[
+				'token' => $token ?? ''
+			]);
+
+		} catch (\Exception $e) {
+			return $this->error($e->getMessage());
+		}
+	}
+
+	/**
+	 * 注册用户
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 * @throws \Illuminate\Validation\ValidationException
+	 */
+	public function forget(Request $request)
+	{
+		$this->validate($request, [
+			'mobile' => ['required','digits:11'],
+			'password' => ['required','confirmed'],
+			'code' => ['required',function($attribute, $value, $fail) use($request) {
+				if ($value != $this->service->getCode($request->mobile)) {
+					return $fail('验证码错误');
+				}
+			},],
+		], [
+			'mobile.required' => '请填写手机号',
+			'mobile.digits' => '请填写正确手机号',
+			'password.required' => '缺少密码',
+			'password.confirmed' => '确认密码不匹配',
+			'code.required' => '缺少code',
+			'code.same' => '验证码错误',
+		]);
+
+		try {
+
+			$user = User::where([
+				'mobile' => $request->mobile
+			])->first();
 
 			$user->password = bcrypt($request->password);
 

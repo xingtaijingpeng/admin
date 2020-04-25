@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Packages\Order\Models\OrdOrder;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -78,5 +79,10 @@ class User extends Authenticatable implements JWTSubject
     }
     public function getGuardNameAttribute(){
         return config('auth.defaults.guard');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(OrdOrder::class,'user_id');
     }
 }
