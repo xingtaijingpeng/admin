@@ -10,7 +10,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\BaseInfo;
+use App\Models\Comment;
 use App\Models\User;
+use App\Resources\Admin\CommentCollection;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
 
@@ -33,6 +35,17 @@ class IndexController extends Controller
         $base = BaseInfo::find(1);
         $base->banner = json_decode($base->banner,true);
         return $this->success('ok',$base);
+    }
+
+    /**
+     * 评论列表
+     * @param $id
+     */
+    public function comment($id)
+    {
+        $lists = Comment::where('model_id',$id)->orderBy('id','DESC')->paginate($this->pagesize());
+
+        return new CommentCollection($lists);
     }
 
     /**

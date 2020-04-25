@@ -22,6 +22,7 @@ class Article extends Base
             'hot' => $this->hot,
             'user' => new User($this->user),
             'category_id' => $this->categories()->first()->id,
+            'teacher_id' => $this->teacher_id,
 			'category' => $this->categories()->first()->name ?? '',
 			'title' => $this->title,
             'cover' => $this->cover,
@@ -33,6 +34,7 @@ class Article extends Base
             'opened_at' => (string)$this->opened_at,
             'created_at' => (string)$this->created_at,
             'content' => $this->content->content ?? '',
+            'teacher' => \App\Packages\Article\Models\Article::find($this->teacher_id),
         ];
     }
 }
