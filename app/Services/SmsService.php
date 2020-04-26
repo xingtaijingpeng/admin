@@ -29,7 +29,7 @@ class SmsService
 			->regionId('cn-hangzhou')
 			->asDefaultClient();
 
-		AlibabaCloud::rpc()
+		$res = AlibabaCloud::rpc()
 			->product('Dysmsapi')
 			->version('2017-05-25')
 			->action('SendSms')
@@ -47,7 +47,7 @@ class SmsService
 				],
 			])
 			->request();
-
+info($res);
 		Redis::setex($prefix.$mobile, 60, $code);
 
 	}
