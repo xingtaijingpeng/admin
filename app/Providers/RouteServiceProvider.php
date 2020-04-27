@@ -39,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
             return \Response::make('', 200, ['Access-Control-Allow-Headers'=> '*']);
         })->where(['all' => '.+']);
 
-        $this->mapWebRoutes();
+//        $this->mapWebRoutes();
 
         $this->mapApiRoutes();
 

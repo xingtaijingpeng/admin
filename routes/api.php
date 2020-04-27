@@ -12,6 +12,9 @@
 */
 
 //index
+Route::any('/', function (){
+    header("Location: /index.html");
+});
 Route::any('/index', ['as' => 'index','uses' => 'IndexController@index']);
 Route::any('/base', ['as' => 'base','uses' => 'IndexController@base']);
 Article::route();
