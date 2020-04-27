@@ -30,8 +30,10 @@ class OrderController extends Controller
 	public function mkorder(Request $request)
 	{
 
-		return $this->orderService->wx();
-
+		$url = $this->orderService->wx();
+		return $this->success('success',[
+		    'url' => $url
+        ]);
 	}
 
 	/**
@@ -44,9 +46,15 @@ class OrderController extends Controller
 
 		$order = OrdOrder::find($orderid);
 
-		return $this->orderService->ali([
+        $url = $this->orderService->ali([
+            'good_name' => '靖鹏视频',
+            'serial' => '123456789123456789',
+            'amount' => 0.01,
+        ]);
 
-		]);
+        return $this->success('success',[
+            'url' => $url
+        ]);
 
 	}
 

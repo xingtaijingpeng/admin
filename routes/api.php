@@ -20,6 +20,7 @@ Route::any('/base', ['as' => 'base','uses' => 'IndexController@base']);
 Article::route();
 Category::route();
 Route::post('sms', ['as' => 'sms','uses' => 'IndexController@sms']);
+Route::any('notify', ['as' => 'notify','uses' => 'IndexController@notify']);
 
 //token
 Route::post('token', ['as' => 'token','uses' => 'IndexController@token']);

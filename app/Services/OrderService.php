@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Models\OrdTranslog;
 use Omnipay\Omnipay;
 
 class OrderService
@@ -15,12 +16,14 @@ class OrderService
 
 	public function ali($data = []){
 
+	    $ordTransLog = $this->mkTransLog($data['serial']);
+
 		$gateway = Omnipay::create('Alipay_AopPage');
 		$gateway->setSignType('RSA2'); // RSA/RSA2/MD5. Use certificate mode must set RSA2
 		$gateway->setAppId('2021001159615431');
 		$gateway->setPrivateKey(env('ALIPRIKEY'));
 		$gateway->setAlipayPublicKey(env('ALIPUBKEY')); // Need not set this when used certificate mode
-		$gateway->setReturnUrl('http://www.tubojiaoyu.com');
+		$gateway->setReturnUrl('http://www.tubojiaoyu.com/index.html/#/PersonalOrder');
 		$gateway->setNotifyUrl('http://www.tubojiaoyu.com/notify');
 
 		/**
@@ -28,7 +31,7 @@ class OrderService
 		 */
 		$response = $gateway->purchase()->setBizContent([
 			'subject'      => $data['good_name'] ?? '靖鹏视频',
-			'out_trade_no' => $data['serial'] ?? '',
+			'out_trade_no' => $ordTransLog['serial'] ?? '',
 			'total_amount' => $data['amount'] ?? 0,
 			'product_code' => 'FAST_INSTANT_TRADE_PAY',
 		])->send();
@@ -88,4 +91,11 @@ dd($response);
 		return $ip[$type];
 	}
 
+	public function mkTransLog($serial){
+	    return OrdTranslog::create([
+	        'serial' => uniqid(),
+	        'origin_serial' => $serial,
+	        'status' => 1,
+        ]);
+    }
 }

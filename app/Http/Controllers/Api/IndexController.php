@@ -18,11 +18,19 @@ use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
-
 	public function __construct(SmsService $service)
 	{
 		$this->service = $service;
 	}
+
+    /**
+     * 回调
+     * @param Request $request
+     */
+    public function notify(Request $request){
+        info('innnnn');
+        echo 'success';
+    }
 
     /**
      * @return string
