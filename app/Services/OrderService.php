@@ -20,16 +20,16 @@ class OrderService
 		$gateway->setAppId('2021001159615431');
 		$gateway->setPrivateKey(env('ALIPRIKEY'));
 		$gateway->setAlipayPublicKey(env('ALIPUBKEY')); // Need not set this when used certificate mode
-		$gateway->setReturnUrl('http://www.tubojiaoyu.com/return');
+		$gateway->setReturnUrl('http://www.tubojiaoyu.com');
 		$gateway->setNotifyUrl('http://www.tubojiaoyu.com/notify');
 
 		/**
 		 * @var AopTradePagePayResponse $response
 		 */
 		$response = $gateway->purchase()->setBizContent([
-			'subject'      => 'test',
-			'out_trade_no' => date('YmdHis') . mt_rand(1000, 9999),
-			'total_amount' => '0.01',
+			'subject'      => $data['good_name'] ?? '靖鹏视频',
+			'out_trade_no' => $data['serial'] ?? '',
+			'total_amount' => $data['amount'] ?? 0,
 			'product_code' => 'FAST_INSTANT_TRADE_PAY',
 		])->send();
 
@@ -40,7 +40,7 @@ class OrderService
 
 		$gateway = Omnipay::create('WechatPay_Native');
 
-		$gateway->setAppId('');
+		$gateway->setAppId('wx90105c6e46750e7c');
 		$gateway->setMchId('1588663661');
 		$gateway->setApiKey('');
 		$gateway->setNotifyUrl('http://www.tubojiaoyu.com/notify');

@@ -32,6 +32,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::any('user/goods', ['as' => 'change/cover','uses' => 'OrderController@goods']);
     Route::any('user/message', ['as' => 'change/cover','uses' => 'OrderController@message']);
     Route::any('comment/{id}', ['as' => 'comment','uses' => 'IndexController@comment']);
-
+	Route::any('order/make', ['as' => 'order.make','uses' => 'OrderController@mkorder']);
+	Route::any('order/repay', ['as' => 'order.repay','uses' => 'OrderController@repayorder']);
 });
-Route::any('mkorder', ['as' => 'comment','uses' => 'OrderController@mkorder']);

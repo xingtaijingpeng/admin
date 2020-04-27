@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Packages\Order\Models\OrdOrder;
 use App\Resources\Api\MessageCollection;
 use App\Resources\Api\OrdOrderCollection;
 use App\Services\OrderService;
@@ -26,11 +27,29 @@ class OrderController extends Controller
 	 * @param Request $request
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function mkorder(Request $request){
+	public function mkorder(Request $request)
+	{
 
 		return $this->orderService->wx();
 
 	}
+
+	/**
+	 * 再次支付订单
+	 * @param Request $request
+	 */
+	public function repayorder(Request $request)
+	{
+		$orderid = $request->orderid ?? 0;
+
+		$order = OrdOrder::find($orderid);
+
+		return $this->orderService->ali([
+
+		]);
+
+	}
+
     /**
      * 购买的商品
      * @param Request $request
