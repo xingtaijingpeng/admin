@@ -14,6 +14,9 @@
         "hhxsv5/laravel-s": "^3.5",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^1.0",
+        "league/omnipay": "^3.0",
+        "lokielse/omnipay-alipay": "^3.1",
+        "lokielse/omnipay-wechatpay": "^3.0",
         "spatie/laravel-permission": "^3.2",
         "tymon/jwt-auth": "1.*@rc"
     },

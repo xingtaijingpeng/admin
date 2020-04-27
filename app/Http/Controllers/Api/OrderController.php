@@ -11,10 +11,26 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Resources\Api\MessageCollection;
 use App\Resources\Api\OrdOrderCollection;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+	public function __construct(OrderService $orderService)
+	{
+		$this->orderService = $orderService;
+	}
+
+	/**
+	 * 下订单
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function mkorder(Request $request){
+
+		return $this->orderService->wx();
+
+	}
     /**
      * 购买的商品
      * @param Request $request
