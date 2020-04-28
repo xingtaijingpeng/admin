@@ -25,7 +25,7 @@ class Category extends Base
         ];
 
         if($this->children){
-            $data['children'] = SysPermission::collection($this->children ?? []);
+            $data['children'] = Category::collection($this->children ?? []);
         }
 
         return $data;
