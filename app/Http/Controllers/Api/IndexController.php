@@ -189,6 +189,19 @@ class IndexController extends Controller
     public function userinfo(){
         $user = \Auth::user();
 
+        $year = date('Y')*1;
+        $kaoshishijian = strtotime($year.'-11-10 00:00:00');
+
+        if(time() > $kaoshishijian){
+            $year++;
+        }
+
+        $need = strtotime($year.'-11-10 00:00:00');
+
+        $needday = (int)(($need-time())/(3600*24));
+
+        $user->needay = $needday;
+
 		return $this->success('success',$user);
     }
 

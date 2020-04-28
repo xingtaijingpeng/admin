@@ -24,7 +24,7 @@ class Category extends Base
 
         ];
 
-        if($this->children){
+        if($this->children && count($this->children)>0){
             $data['children'] = Category::collection($this->children ?? []);
         }
 
