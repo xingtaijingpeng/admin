@@ -11,7 +11,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\BaseInfo;
 use App\Models\Comment;
+use App\Models\OrdTranslog;
 use App\Models\User;
+use App\Packages\Order\Models\OrdOrder;
 use App\Resources\Admin\CommentCollection;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
@@ -28,7 +30,23 @@ class IndexController extends Controller
      * @param Request $request
      */
     public function notify(Request $request){
-        info('innnnn');
+
+		$options = array_merge($_POST, $_GET);
+
+		if(empty($options)){
+			$options = file_get_contents('php://input');
+			$options = (array)simplexml_load_string($options, 'SimpleXMLElement', LIBXML_NOCDATA);
+		}
+
+		$serial = $options['out_trade_no'] ?? $options['orderId'];
+
+		$translog = OrdTranslog::where('serial',$serial)->first();
+		$translog->update([
+			'status' => 2,
+		]);
+		OrdOrder::where('serial',$translog['origin_serial'])->update([
+			'status' => 2
+		]);
         echo 'success';
     }
 
@@ -44,6 +62,24 @@ class IndexController extends Controller
         $base->banner = json_decode($base->banner,true);
         return $this->success('ok',$base);
     }
+
+	/**
+	 * 判断是否购买
+	 * @param $id
+	 */
+    public function hasbuy($id)
+	{
+		$user = \Auth::user();
+
+		$order = $user->orders()->where([
+			'status' => 2,
+			'good_id' => $id,
+		])->first();
+
+		return $this->success('success',[
+			'isbuy' => $order ? 1 : 0
+		]);
+	}
 
     /**
      * 评论列表

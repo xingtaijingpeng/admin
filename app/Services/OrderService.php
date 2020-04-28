@@ -14,7 +14,7 @@ use Omnipay\Omnipay;
 class OrderService
 {
 
-	public function ali($data = []){
+	public function ali($data = [],$id = 0){
 
 	    $ordTransLog = $this->mkTransLog($data['serial']);
 
@@ -23,7 +23,7 @@ class OrderService
 		$gateway->setAppId('2021001159615431');
 		$gateway->setPrivateKey(env('ALIPRIKEY'));
 		$gateway->setAlipayPublicKey(env('ALIPUBKEY')); // Need not set this when used certificate mode
-		$gateway->setReturnUrl('http://www.tubojiaoyu.com/index.html/#/PersonalOrder');
+		$gateway->setReturnUrl('http://www.tubojiaoyu.com/index.html/#/ClassDetails/'.$id);
 		$gateway->setNotifyUrl('http://www.tubojiaoyu.com/notify');
 
 		/**
@@ -36,34 +36,36 @@ class OrderService
 			'product_code' => 'FAST_INSTANT_TRADE_PAY',
 		])->send();
 
-		return $response->getRedirectUrl();
+		return [$response->getRedirectUrl(),$ordTransLog];
 	}
 
 	public function wx($data = []){
+
+		$ordTransLog = $this->mkTransLog($data['serial']);
 
 		$gateway = Omnipay::create('WechatPay_Native');
 
 		$gateway->setAppId('wx90105c6e46750e7c');
 		$gateway->setMchId('1588663661');
-		$gateway->setApiKey('');
+		$gateway->setApiKey(env('WXKEY'));
 		$gateway->setNotifyUrl('http://www.tubojiaoyu.com/notify');
 
 
 
 		$order = [
-			'body'              => '厨卫商品',
-			'out_trade_no'      => date('YmdHis') . mt_rand(1000, 9999),
-			'total_fee'         => 1,
+			'body'              => $data['good_name'] ?? '靖鹏视频',
+			'out_trade_no'      => $ordTransLog['serial'] ?? '',
+			'total_fee'         => $data['amount'] ?? 0,
 			'spbill_create_ip'  => $this->getClientIP(),
 			'fee_type'          => 'CNY'
 		];
 
 		$request  = $gateway->purchase($order);
 		$response = $request->send();
-dd($response);
+
 		$res = $response->getCodeUrl();
 
-		return $res;
+		return [$res,$ordTransLog];
 	}
 
 	/**

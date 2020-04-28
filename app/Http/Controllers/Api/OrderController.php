@@ -9,6 +9,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrdTranslog;
+use App\Packages\Article\Models\Article;
 use App\Packages\Order\Models\OrdOrder;
 use App\Resources\Api\MessageCollection;
 use App\Resources\Api\OrdOrderCollection;
@@ -30,10 +32,52 @@ class OrderController extends Controller
 	public function mkorder(Request $request)
 	{
 
-		$url = $this->orderService->wx();
-		return $this->success('success',[
-		    'url' => $url
-        ]);
+		$this->validate($request, [
+			'good_id' => ['required'],
+			'type' => ['required'],
+		], [
+			'good_id.required' => '暂无视频',
+			'type.required' => '缺少支付方式',
+		]);
+
+		$goodInfo = Article::find($request->good_id);
+
+		$user = \Auth::user();
+
+		$order = $user->orders()->create([
+			'status' => 1,
+			'pay_type' => $request->type,
+			'serial' => date('YmdHis').$user['id'].rand(100,999),
+			'good_id' => $goodInfo['id'],
+			'good_name' => $goodInfo['title'],
+			'price' => $goodInfo['price'],
+			'old_price' => $goodInfo['price'],
+		]);
+		if($request->type == 1){
+
+			list($url,$ordTransLog) = $this->orderService->wx([
+				'good_name' => '靖鹏视频',
+				'serial' => $order['serial'],
+				'amount' => $order['price']
+			]);
+
+			return $this->success('success',[
+				'url' => $url,
+				'ordTransLog' => $ordTransLog
+			]);
+
+		}else{
+			list($url,$ordTransLog) = $this->orderService->ali([
+				'good_name' => '靖鹏视频',
+				'serial' => $order['serial'],
+				'amount' => $order['price']
+			],$request->good_id);
+			return $this->success('success',[
+				'url' => $url,
+				'ordTransLog' => $ordTransLog
+			]);
+		}
+
 	}
 
 	/**
@@ -56,6 +100,23 @@ class OrderController extends Controller
             'url' => $url
         ]);
 
+	}
+
+	/**
+	 * 查询支付是否成功
+	 * @param Request $request
+	 */
+	public function ordercheck(Request $request){
+
+		$serial = $request->serial ?? '';
+
+		$translog = OrdTranslog::where('serial',$serial)->first();
+
+		if($translog['status'] == 2){
+			return $this->success('ok');
+		}else{
+			return $this->error('no');
+		}
 	}
 
     /**
