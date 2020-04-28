@@ -132,7 +132,8 @@ class IndexController extends Controller
 		$token = auth('admin')->login($user);
 
 		return $this->success('success',[
-			'token' => $token
+			'token' => $token,
+            'user' => $user,
 		]);
     }
 
@@ -268,7 +269,8 @@ class IndexController extends Controller
 			$token = auth('admin')->login($user);
 
 			return $this->success('success',[
-				'token' => $token ?? ''
+                'user' => $user,
+                'token' => $token ?? ''
 			]);
 
 		} catch (\Exception $e) {
@@ -314,7 +316,8 @@ class IndexController extends Controller
 			$token = auth('admin')->login($user);
 
 			return $this->success('success',[
-				'token' => $token ?? ''
+                'user' => $user,
+                'token' => $token ?? ''
 			]);
 
 		} catch (\Exception $e) {
