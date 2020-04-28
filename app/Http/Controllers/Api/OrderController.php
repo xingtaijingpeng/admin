@@ -70,8 +70,8 @@ class OrderController extends Controller
 			list($url,$ordTransLog) = $this->orderService->ali([
 				'good_name' => '靖鹏视频',
 				'serial' => $order['serial'],
-				'amount' => $order['price']
-			],$request->good_id);
+				'amount' => round(($order['price']*1)/100,2)
+			]);
 			return $this->success('success',[
 				'url' => $url,
 				'ordTransLog' => $ordTransLog

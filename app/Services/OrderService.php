@@ -14,7 +14,7 @@ use Omnipay\Omnipay;
 class OrderService
 {
 
-	public function ali($data = [],$id = 0){
+	public function ali($data = []){
 
 	    $ordTransLog = $this->mkTransLog($data['serial']);
 
@@ -23,7 +23,7 @@ class OrderService
 		$gateway->setAppId('2021001159615431');
 		$gateway->setPrivateKey(env('ALIPRIKEY'));
 		$gateway->setAlipayPublicKey(env('ALIPUBKEY')); // Need not set this when used certificate mode
-		$gateway->setReturnUrl('http://www.tubojiaoyu.com/index.html/#/ClassDetails/'.$id);
+		$gateway->setReturnUrl('http://www.tubojiaoyu.com/backurl');
 		$gateway->setNotifyUrl('http://www.tubojiaoyu.com/notify');
 
 		/**

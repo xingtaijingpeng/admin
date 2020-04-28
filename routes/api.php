@@ -21,6 +21,7 @@ Article::route();
 Category::route();
 Route::post('sms', ['as' => 'sms','uses' => 'IndexController@sms']);
 Route::any('notify', ['as' => 'notify','uses' => 'IndexController@notify']);
+Route::any('backurl', ['as' => 'backurl','uses' => 'IndexController@backurl']);
 
 //token
 Route::post('token', ['as' => 'token','uses' => 'IndexController@token']);

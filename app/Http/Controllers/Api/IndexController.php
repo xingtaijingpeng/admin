@@ -25,6 +25,20 @@ class IndexController extends Controller
 		$this->service = $service;
 	}
 
+	/**
+	 * 回调跳转
+	 * @param Request $request
+	 */
+	public function backurl(Request $request)
+	{
+		$serial = $request->out_trade_no ?? '';
+		$translog = OrdTranslog::where('serial',$serial)->first();
+		$order = OrdOrder::where('serial',$translog['origin_serial'])->first();
+
+		header("Location: /index.html#/ClassDetails/".$order['good_id']);
+
+	}
+
     /**
      * 回调
      * @param Request $request
