@@ -87,19 +87,43 @@ class OrderController extends Controller
 	public function repayorder(Request $request)
 	{
 		$orderid = $request->orderid ?? 0;
+		$type = $request->type ?? 1;
 
 		$order = OrdOrder::find($orderid);
 
-        $url = $this->orderService->ali([
-            'good_name' => '靖鹏视频',
-            'serial' => '123456789123456789',
-            'amount' => 0.01,
-        ]);
+		//weixin
+		if($type == 1){
+			list($url,$ordTransLog) = $this->orderService->wx([
+				'good_name' => '靖鹏视频',
+				'serial' => $order['serial'],
+				'amount' => $order['price'],
+			]);
+		}else{
+			list($url,$ordTransLog) = $this->orderService->ali([
+				'good_name' => '靖鹏视频',
+				'serial' => $order['serial'],
+				'amount' => round($order['price']/100,2),
+			]);
+
+		}
 
         return $this->success('success',[
-            'url' => $url
-        ]);
+            'url' => $url,
+			'ordTransLog' => $ordTransLog
+		]);
 
+	}
+
+	/**
+	 * 删除订单
+	 * @param Request $request
+	 */
+	public function orderdelete(Request $request){
+		$id= $request->id ?? 0;
+
+		OrdOrder::where('id',$id)->delete();
+
+		return $this->success('ok');
 	}
 
 	/**
