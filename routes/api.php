@@ -29,6 +29,8 @@ Route::post('register', ['as' => 'register','uses' => 'IndexController@register'
 Route::post('forget', ['as' => 'register','uses' => 'IndexController@forget']);
 Route::any('comment/{id}', ['as' => 'comment','uses' => 'IndexController@comment']);
 
+Route::any('getWeixinUser', 'WeixinController@getWeixinUser');
+
 Route::group(['middleware' => ['auth:api']], function () {
     Upload::route();
     Route::any('userinfo', ['as' => 'userinfo','uses' => 'IndexController@userinfo']);
@@ -39,6 +41,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::any('user/goods', ['as' => 'change/cover','uses' => 'OrderController@goods']);
     Route::any('user/message', ['as' => 'change/cover','uses' => 'OrderController@message']);
 	Route::any('order/make', ['as' => 'order.make','uses' => 'OrderController@mkorder']);
+	Route::any('order/make2', ['as' => 'order.make','uses' => 'OrderController@mkorder2']);
 	Route::any('order/repay', ['as' => 'order.repay','uses' => 'OrderController@repayorder']);
 	Route::any('order/check', ['as' => 'order.check','uses' => 'OrderController@ordercheck']);
 	Route::any('order/delete', ['as' => 'order.delete','uses' => 'OrderController@orderdelete']);

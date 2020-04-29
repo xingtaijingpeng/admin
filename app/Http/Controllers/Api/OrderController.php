@@ -24,61 +24,106 @@ class OrderController extends Controller
 		$this->orderService = $orderService;
 	}
 
-	/**
-	 * 下订单
-	 * @param Request $request
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function mkorder(Request $request)
-	{
+    /**
+     * 下订单
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mkorder(Request $request)
+    {
 
-		$this->validate($request, [
-			'good_id' => ['required'],
-			'type' => ['required'],
-		], [
-			'good_id.required' => '暂无视频',
-			'type.required' => '缺少支付方式',
-		]);
+        $this->validate($request, [
+            'good_id' => ['required'],
+            'type' => ['required'],
+        ], [
+            'good_id.required' => '暂无视频',
+            'type.required' => '缺少支付方式',
+        ]);
 
-		$goodInfo = Article::find($request->good_id);
+        $goodInfo = Article::find($request->good_id);
 
-		$user = \Auth::user();
+        $user = \Auth::user();
 
-		$order = $user->orders()->create([
-			'status' => 1,
-			'pay_type' => $request->type,
-			'serial' => date('YmdHis').$user['id'].rand(100,999),
-			'good_id' => $goodInfo['id'],
-			'good_name' => $goodInfo['title'],
-			'price' => $goodInfo['price'],
-			'old_price' => $goodInfo['price'],
-		]);
-		if($request->type == 1){
+        $order = $user->orders()->create([
+            'status' => 1,
+            'pay_type' => $request->type,
+            'serial' => date('YmdHis').$user['id'].rand(100,999),
+            'good_id' => $goodInfo['id'],
+            'good_name' => $goodInfo['title'],
+            'price' => $goodInfo['price'],
+            'old_price' => $goodInfo['price'],
+        ]);
+        if($request->type == 1){
 
-			list($url,$ordTransLog) = $this->orderService->wx([
-				'good_name' => '靖鹏视频',
-				'serial' => $order['serial'],
-				'amount' => $order['price']
-			]);
+            list($url,$ordTransLog) = $this->orderService->wx([
+                'good_name' => '靖鹏视频',
+                'serial' => $order['serial'],
+                'amount' => $order['price']
+            ]);
 
-			return $this->success('success',[
-				'url' => $url,
-				'ordTransLog' => $ordTransLog
-			]);
+            return $this->success('success',[
+                'url' => $url,
+                'ordTransLog' => $ordTransLog
+            ]);
 
-		}else{
-			list($url,$ordTransLog) = $this->orderService->ali([
-				'good_name' => '靖鹏视频',
-				'serial' => $order['serial'],
-				'amount' => round(($order['price']*1)/100,2)
-			]);
-			return $this->success('success',[
-				'url' => $url,
-				'ordTransLog' => $ordTransLog
-			]);
-		}
+        }else{
+            list($url,$ordTransLog) = $this->orderService->ali([
+                'good_name' => '靖鹏视频',
+                'serial' => $order['serial'],
+                'amount' => round(($order['price']*1)/100,2)
+            ]);
+            return $this->success('success',[
+                'url' => $url,
+                'ordTransLog' => $ordTransLog
+            ]);
+        }
 
-	}
+    }
+
+    /**
+     * 下订单
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mkorder2(Request $request)
+    {
+
+        $this->validate($request, [
+            'good_id' => ['required'],
+            'openid' => ['required'],
+            'type' => ['required'],
+        ], [
+            'good_id.required' => '暂无视频',
+            'type.required' => '缺少支付方式',
+            'openid.required' => '缺少openid',
+        ]);
+
+        $goodInfo = Article::find($request->good_id);
+
+        $user = \Auth::user();
+
+        $order = $user->orders()->create([
+            'status' => 1,
+            'pay_type' => $request->type,
+            'serial' => date('YmdHis').$user['id'].rand(100,999),
+            'good_id' => $goodInfo['id'],
+            'good_name' => $goodInfo['title'],
+            'price' => $goodInfo['price'],
+            'old_price' => $goodInfo['price'],
+        ]);
+        list($url,$ordTransLog) = $this->orderService->wx2([
+            'good_name' => '靖鹏视频',
+            'openid' => $request->openid,
+            'serial' => $order['serial'],
+            'amount' => $order['price']
+        ]);
+
+        return $this->success('success',[
+            'config' => $url,
+            'ordTransLog' => $ordTransLog
+        ]);
+
+    }
 
 	/**
 	 * 再次支付订单

@@ -68,6 +68,36 @@ class OrderService
 		return [$res,$ordTransLog];
 	}
 
+	public function wx2($data = []){
+
+		$ordTransLog = $this->mkTransLog($data['serial']);
+
+		$gateway = Omnipay::create('WechatPay_Js');
+
+		$gateway->setAppId('wx90105c6e46750e7c');
+		$gateway->setMchId('1588663661');
+		$gateway->setApiKey(env('WXKEY'));
+		$gateway->setNotifyUrl('http://www.tubojiaoyu.com/notify');
+
+
+
+		$order = [
+			'body'              => $data['good_name'] ?? '靖鹏视频',
+			'out_trade_no'      => $ordTransLog['serial'] ?? '',
+            'open_id'           => $data['openid'],
+            'total_fee'         => $data['amount'] ?? 0,
+			'spbill_create_ip'  => $this->getClientIP(),
+			'fee_type'          => 'CNY'
+		];
+
+		$request  = $gateway->purchase($order);
+		$response = $request->send();
+
+		$res = $response->getJsOrderData();
+
+		return [$res,$ordTransLog];
+	}
+
 	/**
 	 * 客户端IP
 	 * @param int $type
