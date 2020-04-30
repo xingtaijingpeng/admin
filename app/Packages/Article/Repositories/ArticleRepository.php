@@ -32,7 +32,7 @@ class ArticleRepository implements ArticleInterface
         if(request('hot')){
             $list = $list->where('hot',request('hot'));
         }
-        return $list->paginate($size);
+        return $list->orderBy('id','DESC')->paginate($size);
     }
 
     /**
