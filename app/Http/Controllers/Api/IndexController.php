@@ -324,4 +324,16 @@ class IndexController extends Controller
 			return $this->error($e->getMessage());
 		}
 	}
+
+	public function userinfosave(Request $request)
+    {
+        $from = $request->from ?? [];
+
+        $user = \Auth::user();
+
+        $user->update($from);
+
+        return $this->success('ok');
+
+    }
 }

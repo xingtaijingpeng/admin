@@ -34,6 +34,8 @@ Route::any('getWeixinUser', 'WeixinController@getWeixinUser');
 Route::group(['middleware' => ['auth:api']], function () {
     Upload::route();
     Route::any('userinfo', ['as' => 'userinfo','uses' => 'IndexController@userinfo']);
+    Route::any('userinfo/save', ['as' => 'userinfo','uses' => 'IndexController@userinfosave']);
+    Route::any('userinfo2', ['as' => 'userinfo','uses' => 'IndexController@userinfo']);
     Route::any('hasbuy/{id}', ['as' => 'userinfo','uses' => 'IndexController@hasbuy']);
     Route::any('change/cover', ['as' => 'change/cover','uses' => 'IndexController@changeCover']);
     Route::any('change/password', ['as' => 'change/cover','uses' => 'IndexController@changePassword']);
