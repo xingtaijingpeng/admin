@@ -18,6 +18,11 @@ class User extends Base
             'name' => $this->name,
             'avatar' => $this->avatar,
             'email' => $this->email,
+            'sex' => $this->sex,
+            'qianming' => $this->qianming,
+            'real_name' => $this->real_name,
+            'real_num' => $this->real_num,
+            'address' => $this->address,
             'created_at' => (string)$this->created_at,
         ];
     }
