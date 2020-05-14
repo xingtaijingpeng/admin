@@ -72,8 +72,8 @@ class ArticleController extends Controller
                 'category_id' => $request->category_id,
                 'teacher_id' => $request->teacher_id ?? 0,
                 'url' => $request->url ?? '',
-                'price' => $request->price ?? 0,
-                'old_price' => $request->old_price ?? 0,
+                'price' => ($request->price ?? 0)*100,
+                'old_price' => ($request->old_price ?? 0)*100,
                 'opened_at' => $request->opened_at ?? null,
             ]);
             return $this->success('ok');
@@ -109,8 +109,8 @@ class ArticleController extends Controller
                 'category_id' => $request->category_id,
                 'teacher_id' => $request->teacher_id ?? 0,
 				'url' => $request->url ?? '',
-				'price' => $request->price ?? 0,
-				'old_price' => $request->old_price ?? 0,
+				'price' => ($request->price ?? 0)*100,
+				'old_price' => ($request->old_price ?? 0)*100,
 				'opened_at' => $request->opened_at ?? null,
             ],$id);
             return $this->success('ok');
