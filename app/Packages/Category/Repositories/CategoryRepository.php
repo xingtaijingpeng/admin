@@ -21,7 +21,7 @@ class CategoryRepository implements CategoryInterface
      */
     public function all($guard)
     {
-        $category = SysCategory::where('guard',$guard);
+        $category = SysCategory::where('guard',$guard)->where('status',1);
 
         if(request('parent_id')){
             $category = $category->where('parent_id',request('parent_id'));
