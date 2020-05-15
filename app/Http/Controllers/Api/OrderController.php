@@ -112,7 +112,7 @@ class OrderController extends Controller
             'old_price' => $goodInfo['price'],
         ]);
         list($url,$ordTransLog) = $this->orderService->wx2([
-            'good_name' => '靖鹏视频',
+            'good_name' => '图博视频',
             'openid' => $request->openid,
             'serial' => $order['serial'],
             'amount' => $order['price']
@@ -139,13 +139,13 @@ class OrderController extends Controller
 		//weixin
 		if($type == 1){
 			list($url,$ordTransLog) = $this->orderService->wx([
-				'good_name' => '靖鹏视频',
+				'good_name' => '图博视频',
 				'serial' => $order['serial'],
 				'amount' => $order['price'],
 			]);
 		}else{
 			list($url,$ordTransLog) = $this->orderService->ali([
-				'good_name' => '靖鹏视频',
+				'good_name' => '图博视频',
 				'serial' => $order['serial'],
 				'amount' => round($order['price']/100,2),
 			]);
@@ -197,7 +197,7 @@ class OrderController extends Controller
     {
         $user = \Auth::user();
 
-        $list = $user->orders()->where($request->toArray())->orderBy('id','DESC')->paginate($this->pagesize());
+        $list = $user->orders()->whereHas('good')->where($request->toArray())->orderBy('id','DESC')->paginate($this->pagesize());
 
         return new OrdOrderCollection($list);
     }

@@ -9,6 +9,7 @@
 namespace App\Packages\Order\Models;
 
 use App\Models\User;
+use App\Packages\Article\Models\Article;
 use Illuminate\Database\Eloquent\Model;
 
 class OrdOrder extends Model
@@ -17,6 +18,10 @@ class OrdOrder extends Model
 
 	public function user(){
 		return $this->belongsTo(User::class,'user_id');
+	}
+
+	public function good(){
+		return $this->belongsTo(Article::class,'good_id');
 	}
 
 }
