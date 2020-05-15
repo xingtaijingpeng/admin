@@ -13,6 +13,7 @@ use App\Models\BaseInfo;
 use App\Models\Comment;
 use App\Models\OrdTranslog;
 use App\Models\User;
+use App\Packages\Article\Models\Article;
 use App\Packages\Order\Models\OrdOrder;
 use App\Resources\Admin\CommentCollection;
 use App\Services\SmsService;
@@ -23,6 +24,17 @@ class IndexController extends Controller
 	public function __construct(SmsService $service)
 	{
 		$this->service = $service;
+	}
+
+	public function goodcategory(Request $request)
+	{
+		$article = Article::find($request->id);
+		$category = $article->categories()->first();
+		$parent = $category->parent;
+		$parent->sons->each(function ($item){
+			$item->article;
+		});
+		return $this->success('ok',$parent);
 	}
 
 	/**

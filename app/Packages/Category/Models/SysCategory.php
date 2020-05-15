@@ -24,4 +24,12 @@ class SysCategory extends Model
     {
         return $this->morphedByMany(PackageArticle::class, 'sys_categoriable');
     }
+
+    public function parent(){
+    	return $this->belongsTo(SysCategory::class,'parent_id');
+	}
+
+	public function sons(){
+    	return $this->hasMany(SysCategory::class,'parent_id');
+	}
 }

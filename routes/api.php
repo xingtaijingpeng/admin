@@ -31,6 +31,9 @@ Route::any('comment/{id}', ['as' => 'comment','uses' => 'IndexController@comment
 
 Route::any('getWeixinUser', 'WeixinController@getWeixinUser');
 
+Route::any('good/category', 'IndexController@goodcategory');
+
+
 Route::group(['middleware' => ['auth:api']], function () {
     Upload::route();
     Route::any('userinfo', ['as' => 'userinfo','uses' => 'IndexController@userinfo']);
