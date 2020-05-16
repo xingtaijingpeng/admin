@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\OrdTranslog;
 use App\Packages\Article\Models\Article;
+use App\Packages\Article\Resources\ArticleCollection;
 use App\Packages\Order\Models\OrdOrder;
 use App\Resources\Api\MessageCollection;
 use App\Resources\Api\OrdOrderCollection;
@@ -48,6 +49,8 @@ class OrderController extends Controller
             'status' => 1,
             'pay_type' => $request->type,
             'serial' => date('YmdHis').$user['id'].rand(100,999),
+            'cate_id' => $goodInfo->categories()->first()->id ?? 0,
+            'cate_name' => $goodInfo->categories()->first()->name ?? '',
             'good_id' => $goodInfo['id'],
             'good_name' => $goodInfo['title'],
             'price' => $goodInfo['price'],
@@ -106,6 +109,8 @@ class OrderController extends Controller
             'status' => 1,
             'pay_type' => $request->type,
             'serial' => date('YmdHis').$user['id'].rand(100,999),
+            'cate_id' => $goodInfo->categories()->first()->id ?? 0,
+            'cate_name' => $goodInfo->categories()->first()->name ?? '',
             'good_id' => $goodInfo['id'],
             'good_name' => $goodInfo['title'],
             'price' => $goodInfo['price'],
@@ -200,6 +205,24 @@ class OrderController extends Controller
         $list = $user->orders()->whereHas('good')->where($request->toArray())->orderBy('id','DESC')->paginate($this->pagesize());
 
         return new OrdOrderCollection($list);
+    }
+
+    /**
+     * 购买的商品
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function goods2(Request $request)
+    {
+        $user = \Auth::user();
+
+        $cids = $user->orders->pluck('cate_id');
+
+        $list = Article::whereHas('categories',function ($query)use($cids){
+            $query->whereIn('sys_categories.id',$cids);
+        })->orderBy('sorts','DESC')->paginate(999);
+
+        return new ArticleCollection($list);
     }
 
     /**

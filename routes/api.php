@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::any('change/password', ['as' => 'change/cover','uses' => 'IndexController@changePassword']);
 
     Route::any('user/goods', ['as' => 'change/cover','uses' => 'OrderController@goods']);
+    Route::any('user/goods2', ['as' => 'change/cover','uses' => 'OrderController@goods2']);
     Route::any('user/message', ['as' => 'change/cover','uses' => 'OrderController@message']);
 	Route::any('order/make', ['as' => 'order.make','uses' => 'OrderController@mkorder']);
 	Route::any('order/make2', ['as' => 'order.make','uses' => 'OrderController@mkorder2']);

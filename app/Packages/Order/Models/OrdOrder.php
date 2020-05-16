@@ -10,6 +10,7 @@ namespace App\Packages\Order\Models;
 
 use App\Models\User;
 use App\Packages\Article\Models\Article;
+use App\Packages\Category\Models\SysCategory;
 use Illuminate\Database\Eloquent\Model;
 
 class OrdOrder extends Model
@@ -22,6 +23,10 @@ class OrdOrder extends Model
 
 	public function good(){
 		return $this->belongsTo(Article::class,'good_id');
+	}
+
+	public function category(){
+		return $this->belongsTo(SysCategory::class,'cate_id');
 	}
 
 }

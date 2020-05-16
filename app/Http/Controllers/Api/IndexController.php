@@ -71,7 +71,8 @@ class IndexController extends Controller
 			'status' => 2,
 		]);
 		OrdOrder::where('serial',$translog['origin_serial'])->update([
-			'status' => 2
+			'status' => 2,
+			'payed_at' => date('Y-m-d H:i:s'),
 		]);
         echo 'success';
     }
@@ -96,10 +97,10 @@ class IndexController extends Controller
     public function hasbuy($id)
 	{
 		$user = \Auth::user();
-
+		$art = Article::find($id)->categories()->first();
 		$order = $user->orders()->where([
 			'status' => 2,
-			'good_id' => $id,
+			'cate_id' => $art->id,
 		])->first();
 
 		return $this->success('success',[

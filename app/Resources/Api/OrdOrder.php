@@ -21,6 +21,8 @@ class OrdOrder extends Base
             'user_id'   => $this->user_id,
             'serial'    => $this->serial,
             'good_id'   => $this->good_id,
+            'cate_id'   => $this->cate_id,
+            'cate_name'   => $this->cate_name,
             'good_info'   => new \App\Packages\Article\Resources\Article(Article::find($this->good_id)),
             'good_name' => $this->good_name,
             'price' => round($this->price/100,2),

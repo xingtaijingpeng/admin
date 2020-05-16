@@ -58,7 +58,23 @@ class ArticleRepository implements ArticleInterface
         $art->categories()->sync([
             'sys_category_id' => $data['category_id']
         ]);
+        $this->tongbujiage($art,$data);
         return $art;
+    }
+
+    public function tongbujiage($art,$data)
+    {
+        $art->categories()->update([
+            'price' => $data['price'],
+            'old_price' => $data['old_price'],
+        ]);
+
+        $art->categories->each(function($item)use($data){
+            $item->article()->update([
+                'price' => $data['price'],
+                'old_price' => $data['old_price'],
+            ]);
+        });
     }
 
     /**
@@ -77,6 +93,8 @@ class ArticleRepository implements ArticleInterface
         $art->categories()->sync([
             'sys_category_id' => $data['category_id']
         ]);
+        $this->tongbujiage($art,$data);
+
         return $art;
     }
 
