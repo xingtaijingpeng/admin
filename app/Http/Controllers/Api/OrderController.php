@@ -59,7 +59,7 @@ class OrderController extends Controller
         if($request->type == 1){
 
             list($url,$ordTransLog) = $this->orderService->wx([
-                'good_name' => '靖鹏视频',
+                'good_name' => '图博视频',
                 'serial' => $order['serial'],
                 'amount' => $order['price']
             ]);
@@ -71,7 +71,7 @@ class OrderController extends Controller
 
         }else{
             list($url,$ordTransLog) = $this->orderService->ali([
-                'good_name' => '靖鹏视频',
+                'good_name' => '图博视频',
                 'serial' => $order['serial'],
                 'amount' => round(($order['price']*1)/100,2)
             ]);
