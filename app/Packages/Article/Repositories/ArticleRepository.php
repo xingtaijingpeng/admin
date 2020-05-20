@@ -32,7 +32,13 @@ class ArticleRepository implements ArticleInterface
         if(request('hot')){
             $list = $list->where('hot',request('hot'));
         }
-        return $list->orderBy('id','DESC')->paginate($size);
+        if(request('cateid')){
+        	$cateid = request('cateid');
+            $list = $list->whereHas('categories',function ($query)use($cateid){
+				$query->where('id',$cateid);
+			});
+        }
+        return $list->orderBy('sorts','DESC')->paginate($size);
     }
 
     /**
