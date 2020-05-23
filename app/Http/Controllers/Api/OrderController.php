@@ -202,7 +202,7 @@ class OrderController extends Controller
     {
         $user = \Auth::user();
 
-        $list = $user->orders()->whereHas('good')->where($request->toArray())->orderBy('id','DESC')->paginate($this->pagesize());
+        $list = $user->orders()->whereHas('category')->where($request->toArray())->orderBy('id','DESC')->paginate($this->pagesize());
 
         return new OrdOrderCollection($list);
     }

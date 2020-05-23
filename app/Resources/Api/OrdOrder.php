@@ -20,7 +20,7 @@ class OrdOrder extends Base
             'pay_type'  => $this->pay_type,
             'user_id'   => $this->user_id,
             'serial'    => $this->serial,
-            'good_id'   => $this->good_id,
+            'good_id'   => $this->category->article()->first()->id ?? 0,
             'cate_id'   => $this->cate_id,
             'cate_name'   => $this->cate_name,
             'good_info'   => new \App\Packages\Article\Resources\Article(Article::find($this->good_id)),
