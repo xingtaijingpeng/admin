@@ -216,7 +216,7 @@ class OrderController extends Controller
     {
         $user = \Auth::user();
 
-        $cids = $user->orders->pluck('cate_id');
+        $cids = $user->orders()->where($request->toArray())->pluck('cate_id');
 
         $list = Article::whereHas('categories',function ($query)use($cids){
             $query->whereIn('sys_categories.id',$cids);
