@@ -8,6 +8,7 @@
 
 namespace App\Packages\Category\Resources;
 
+use App\Packages\Article\Resources\Article;
 use App\Resources\Base;
 
 class Category extends Base
@@ -26,6 +27,15 @@ class Category extends Base
 
         if($this->children && count($this->children)>0){
             $data['children'] = Category::collection($this->children ?? []);
+        }
+
+        if($request->has('article')){
+            try{
+                $data['article'] = new Article($this->article()->orderBy('sorts','desc')->first());
+
+            }catch (\Exception $e){
+                $data['article'] = [];
+            }
         }
 
         return $data;

@@ -15,16 +15,18 @@ class OrdOrder extends Base
 {
     public function toArray($request)
     {
+        $goodid = $this->category->article()->first()->id ?? 0;
+        $goodinfo = new \App\Packages\Article\Resources\Article(Article::find($goodid));
         return [
             'id' => $this->id,
             'pay_type'  => $this->pay_type,
             'user_id'   => $this->user_id,
             'serial'    => $this->serial,
-            'good_id'   => $this->category->article()->first()->id ?? 0,
+            'good_id'   => $goodid,
             'cate_id'   => $this->cate_id,
             'cate_name'   => $this->cate_name,
-            'good_info'   => new \App\Packages\Article\Resources\Article(Article::find($this->good_id)),
-            'good_name' => $this->good_name,
+            'good_info'   => $goodinfo,
+            'good_name' => $goodinfo['title'],
             'price' => round($this->price/100,2),
             'old_price' => round($this->old_price/100,2),
             'payed_at'  => $this->payed_at,
