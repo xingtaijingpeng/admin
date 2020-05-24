@@ -32,7 +32,16 @@ class IndexController extends Controller
 		$category = $article->categories()->first();
 		$parent = $category->parent;
 		$parent->sons->each(function ($item){
-			$item->article;
+			$article = [];
+            $tmp= $item->article()->orderBy('sorts','DESC')->get()->toArray();
+
+            foreach($tmp as $val){
+                $article[$val['zhangjie'] ?? ''][] = $val;
+            }
+
+            $item->article = $article;
+
+
 		});
 		return $this->success('ok',$parent);
 	}
