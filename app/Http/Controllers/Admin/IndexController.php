@@ -11,7 +11,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\BaseInfo;
 use App\Models\Comment;
 use App\Models\User;
+use App\Packages\Category\Models\SysCategory;
 use App\Packages\Order\Interfaces\OrderInterface;
+use App\Packages\Order\Models\OrdOrder;
 use App\Resources\Admin\CommentCollection;
 use App\Resources\Admin\OrderCollection;
 use App\Resources\User as UserResource;
@@ -29,6 +31,47 @@ class IndexController extends InitController
 		$this->order = $order;
 	}
 
+    /**
+     * 添加/删除系统订单
+     */
+	public function orderown(Request $request)
+    {
+        try{
+            if($request->hasc == 1){
+                $goodInfo = SysCategory::find($request->id)->article()->orderBy('sorts','DESC')->first();
+                OrdOrder::create([
+                    'status' => 2,
+                    'pay_type' => 1,
+                    'user_id' => $request->userid ?? 0,
+                    'serial' => time(),
+                    'cate_id' => $request->id ?? 0,
+                    'cate_name' => SysCategory::find($request->id)->name??'',
+                    'good_id' => $goodInfo['id'] ?? 0,
+                    'good_name' => $goodInfo['title'] ?? '',
+                    'price' => $goodInfo['price'],
+                    'old_price' => $goodInfo['price'],
+                ]);
+            }else{
+                OrdOrder::where('user_id',$request->userid ?? 0)->where('cate_id',$request->id ?? 0)->delete();
+            }
+
+            return $this->success('oj',$request->all());
+        }catch (\Exception $e){
+            return $this->error('当前分类暂无视频 无法授权');
+
+        }
+
+    }
+
+    /**
+     * 查看用户全部分类
+     */
+    public function usercategory(Request $request)
+    {
+        $sss = OrdOrder::where('user_id',$request->userid ?? 0)->pluck('cate_id');
+        return $this->success('oj',$sss);
+
+    }
 	/**
 	 * 评论列表
 	 * @param $id
@@ -167,7 +210,10 @@ class IndexController extends InitController
 	 */
     public function users(Request $request)
 	{
-		$lists = User::whereRaw('type & '.User::MEMBER_TYPE)->paginate($this->pagesize());
+	    $data = $request->data??[];
+		$lists = User::whereRaw('type & '.User::MEMBER_TYPE)->where(function ($query)use($data){
+            isset($data['mobile']) && $data['mobile'] && $query->where('mobile',$data['mobile']);
+        })->paginate($this->pagesize());
 
 		return new UserCollection($lists);
 

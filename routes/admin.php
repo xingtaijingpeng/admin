@@ -44,7 +44,9 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::any('base/update', ['as' => 'base.update','uses' => 'IndexController@baseUpdate']);
 
     Route::any('users', ['as' => 'users','uses' => 'IndexController@users']);
+    Route::any('users/category', ['as' => 'users','uses' => 'IndexController@usercategory']);
     Route::any('orders', ['as' => 'orders','uses' => 'IndexController@orders']);
+    Route::any('orders/own', ['as' => 'orders','uses' => 'IndexController@orderown']);
 
     Route::group(['prefix' => 'system', 'as' => 'system.', 'namespace' => 'System'], function () {
         Route::group(['prefix' => 'develop', 'as' => 'develop.', 'namespace' => 'Develop'], function () {
