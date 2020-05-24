@@ -25,6 +25,7 @@ class Article extends Base
             'teacher_id' => $this->teacher_id,
 			'category' => $this->categories()->first()->name ?? '',
 			'title' => $this->title,
+			'zhangjie' => $this->zhangjie,
             'cover' => $this->cover,
             'sorts' => $this->sorts,
             'description' => $this->description,
