@@ -19,6 +19,7 @@ class Category extends Base
             'id'            => $this->id,
             'name'          => $this->name,
             'sort'         => $this->sort,
+            'zip_url'         => $this->zip_url,
             'status'        => $this->status,
             'parent_id'     => $this->parent_id,
             'level'         => $this->when($this->level, $this->level),

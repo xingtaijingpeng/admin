@@ -67,6 +67,7 @@ class CategoryController extends Controller
                 'status' => 1,
                 'guard' => $request->guard,
                 'name' => $request->name,
+                'zip_url' => $request->zip_url,
                 'parent_id' => $request->parent_id ?? 0,
             ]);
             return $this->success('ok');
@@ -93,6 +94,7 @@ class CategoryController extends Controller
                 'status' => $request->status ?? 1,
                 'guard' => $request->guard,
                 'sort' => $request->sort,
+                'zip_url' => $request->zip_url,
                 'name' => $request->name,
                 'parent_id' => $request->parent_id ?? 0,
             ],$id);
