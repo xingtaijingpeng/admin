@@ -25,6 +25,7 @@ class OrdOrder extends Base
             'good_id'   => $goodid,
             'cate_id'   => $this->cate_id,
             'cate_name'   => $this->cate_name,
+            'cate_zip'   => $this->category->zip_url ?? '',
             'good_info'   => $goodinfo,
             'good_name' => $goodinfo['title'],
             'price' => round($this->price/100,2),
