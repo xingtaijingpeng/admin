@@ -213,7 +213,7 @@ class IndexController extends InitController
 	    $data = $request->data??[];
 		$lists = User::whereRaw('type & '.User::MEMBER_TYPE)->where(function ($query)use($data){
             isset($data['mobile']) && $data['mobile'] && $query->where('mobile',$data['mobile']);
-        })->paginate($this->pagesize());
+        })->orderBy('id', 'DESC')->paginate($this->pagesize());
 
 		return new UserCollection($lists);
 
