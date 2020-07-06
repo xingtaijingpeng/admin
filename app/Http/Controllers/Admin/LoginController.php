@@ -51,7 +51,9 @@ class LoginController extends InitController
         $token = auth('admin')->login($user);
 
         return $this->success('success',[
-            'token' => $token
+            'token' => $token,
+            'user' => $user,
+            'role' => $user->roles()->first(),
         ]);
     }
 
