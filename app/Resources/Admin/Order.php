@@ -23,6 +23,7 @@ class Order extends Base
 			'good_id'	=> $this->good_id,
 			'good_name'	=> $this->good_name,
 			'price'		=> round($this->price/100,2),
+			'nprice'		=> round($this->nprice/100,2),
 			'old_price'	=> round($this->old_price/100,2),
 			'payed_at'	=> (string)$this->payed_at,
 			'created_at'=> (string)$this->created_at,

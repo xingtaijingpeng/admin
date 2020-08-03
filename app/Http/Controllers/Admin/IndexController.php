@@ -144,6 +144,29 @@ class IndexController extends InitController
 
     }
 
+    public function orderfenqi(Request $request)
+	{
+		$validator = validator($request->all(), [
+			'fenqi' => ['required'],
+			'id' => ['required'],
+			'price' => ['required'],
+		], [
+			'fenqi.required' => '选择期数',
+			'id.required' => '选择订单',
+			'price.required' => '填写金额',
+		]);
+
+		if ($validator->fails()) {
+			return $this->error($validator->errors()->first());
+		}
+
+		OrdOrder::find($request->id)->update([
+			'nprice' => ($request->price ?? 0)*100,
+			'is_fenqi' => $request->fenqi ?? 0,
+		]);
+		return $this->success('success');
+	}
+
     /**
      * 修改基础信息
      * @param Request $request
