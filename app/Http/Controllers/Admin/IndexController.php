@@ -161,6 +161,7 @@ class IndexController extends InitController
 		}
 
 		OrdOrder::find($request->id)->update([
+			'price' => ($request->price ?? 0)*100,
 			'nprice' => ($request->price ?? 0)*100,
 			'is_fenqi' => $request->fenqi ?? 0,
 		]);

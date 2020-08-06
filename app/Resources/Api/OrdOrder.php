@@ -29,6 +29,7 @@ class OrdOrder extends Base
             'good_info'   => $goodinfo,
             'good_name' => $goodinfo['title'],
             'price' => round($this->price/100,2),
+            'is_fenqi' => $this->is_fenqi ?? 0,
             'old_price' => round($this->old_price/100,2),
             'payed_at'  => $this->payed_at,
             'created_at'  => (string)$this->created_at,
