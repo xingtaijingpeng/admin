@@ -75,7 +75,7 @@ class OrderService
 		$gateway = Omnipay::create('WechatPay_Js');
 
 		$gateway->setAppId('wx90105c6e46750e7c');
-		$gateway->setMchId('1588663661');
+		$gateway->setMchId('1601621453');
 		$gateway->setApiKey(env('WXKEY'));
 		$gateway->setNotifyUrl('http://www.tubojiaoyu.com/notify');
 
