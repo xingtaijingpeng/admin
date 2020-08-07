@@ -20,7 +20,8 @@ class OrderService
 
 		$gateway = Omnipay::create('Alipay_AopPage');
 		$gateway->setSignType('RSA2'); // RSA/RSA2/MD5. Use certificate mode must set RSA2
-		$gateway->setAppId('2021001159615431');
+		$gateway->setAppId('2021001187618161');
+//		$gateway->setAppId('2021001159615431');
 		$gateway->setPrivateKey(env('ALIPRIKEY'));
 		$gateway->setAlipayPublicKey(env('ALIPUBKEY')); // Need not set this when used certificate mode
 		$gateway->setReturnUrl('http://www.tubojiaoyu.com/backurl');
