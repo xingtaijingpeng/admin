@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 	Route::any('order/make', ['as' => 'order.make','uses' => 'OrderController@mkorder']);
 	Route::any('order/make2', ['as' => 'order.make','uses' => 'OrderController@mkorder2']);
 	Route::any('order/repay', ['as' => 'order.repay','uses' => 'OrderController@repayorder']);
+	Route::any('order/repay2', ['as' => 'order.repay','uses' => 'OrderController@repayorder2']);
 	Route::any('order/check', ['as' => 'order.check','uses' => 'OrderController@ordercheck']);
 	Route::any('order/delete', ['as' => 'order.delete','uses' => 'OrderController@orderdelete']);
 });
