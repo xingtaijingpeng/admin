@@ -165,6 +165,31 @@ class OrderController extends Controller
 	}
 
 	/**
+	 * 再次支付订单
+	 * @param Request $request
+	 */
+	public function repayorder2(Request $request)
+	{
+		$orderid = $request->orderid ?? 0;
+
+		$order = OrdOrder::find($orderid);
+
+		//weixin
+        list($url,$ordTransLog) = $this->orderService->wx2([
+            'good_name' => '图博视频',
+            'openid' => $request->openid,
+            'serial' => $order['serial'],
+            'amount' => $order['price']
+        ]);
+
+        return $this->success('success',[
+            'config' => $url,
+            'ordTransLog' => $ordTransLog
+        ]);
+
+	}
+
+	/**
 	 * 删除订单
 	 * @param Request $request
 	 */
